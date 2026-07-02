@@ -1,33 +1,2157 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="./src/images/logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Microservices Mastery — Full Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#080B12;
+    --bg2:#0B1019;
+    --panel:#111826;
+    --panel2:#0F1521;
+    --panel-hi:#16202F;
+    --line:#1F2C41;
+    --line-soft:#182337;
+    --ink:#E8EEF8;
+    --dim:#9AA7BD;
+    --faint:#63718A;
+    --cyan:#3AE1F0;
+    --cyan-soft:#1a7d86;
+    --violet:#8B7CFF;
+    --lime:#54E39A;
+    --amber:#F6B860;
+    --rose:#FF7A6B;
+    --glow-cyan:0 0 0 1px rgba(58,225,240,.35), 0 0 22px rgba(58,225,240,.22);
+    --glow-violet:0 0 0 1px rgba(139,124,255,.35), 0 0 22px rgba(139,124,255,.2);
+    --f-disp:"Space Grotesk", system-ui, sans-serif;
+    --f-body:"Inter", system-ui, -apple-system, sans-serif;
+    --f-mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--f-body); font-size:16px; line-height:1.62; overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* ambient animated background */
+  .bg{position:fixed; inset:0; z-index:-2; background:
+      radial-gradient(1100px 700px at 78% -8%, rgba(139,124,255,.14), transparent 60%),
+      radial-gradient(1000px 680px at 12% 8%, rgba(58,225,240,.12), transparent 58%),
+      linear-gradient(180deg,var(--bg),var(--bg2));}
+  .bg-grid{position:fixed; inset:-2px; z-index:-1; opacity:.5;
+    background-image:linear-gradient(rgba(58,225,240,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(58,225,240,.05) 1px,transparent 1px);
+    background-size:46px 46px; mask-image:radial-gradient(circle at 50% 20%, #000 0%, transparent 78%);
+    animation:drift 40s linear infinite;}
+  @keyframes drift{from{background-position:0 0,0 0}to{background-position:46px 92px,46px 92px}}
 
-    <!-- ✅ Page Title & Description -->
-    <title>MoviesFlix444 – Watch Latest Movies & Series</title>
-    <meta name="description" content="Stream the latest movies and web series online in HD. Fast, free, and mobile-friendly moviesflix444!" />
+  code{font-family:var(--f-mono); font-size:.85em; color:var(--cyan); background:rgba(58,225,240,.09); border:1px solid rgba(58,225,240,.18); padding:.05em .38em; border-radius:5px; white-space:nowrap}
+  b,strong{color:#fff; font-weight:600}
+  a{color:var(--cyan)}
 
-    <!-- ✅ Google Site Verification -->
-    <meta name="google-site-verification" content="google96af8f1dfba52bd2" />
+  /* ---------- HUD top bar ---------- */
+  .hud{position:sticky; top:0; z-index:60; background:rgba(8,11,18,.72); backdrop-filter:blur(12px) saturate(150%); border-bottom:1px solid var(--line)}
+  .hud-in{max-width:1020px; margin:0 auto; padding:11px 22px; display:flex; align-items:center; gap:16px}
+  .hud-brand{font-family:var(--f-mono); font-size:12px; letter-spacing:.06em; color:var(--cyan); white-space:nowrap; display:flex; align-items:center; gap:8px}
+  .dot{width:8px; height:8px; border-radius:50%; background:var(--lime); box-shadow:0 0 10px var(--lime); animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .hud-track{flex:1; height:8px; background:#0c1421; border:1px solid var(--line); border-radius:99px; overflow:hidden; position:relative}
+  .hud-fill{height:100%; width:0%; border-radius:99px; background:linear-gradient(90deg,var(--cyan),var(--violet)); box-shadow:0 0 14px rgba(58,225,240,.5); transition:width .6s cubic-bezier(.2,.8,.2,1)}
+  .hud-fill::after{content:""; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent); transform:translateX(-100%); animation:sheen 2.6s infinite}
+  @keyframes sheen{to{transform:translateX(100%)}}
+  .hud-meta{font-family:var(--f-mono); font-size:12px; color:var(--dim); white-space:nowrap; display:flex; gap:10px; align-items:baseline}
+  .hud-meta #pct{color:var(--cyan); font-weight:700}
+  @media(max-width:560px){#count{display:none}}
 
-    <!-- ✅ Open Graph Tags (for Facebook, WhatsApp, etc.) -->
-    <meta property="og:title" content="MoviesFlix444 – Watch Latest Movies & Series" />
-    <meta property="og:description" content="Enjoy free HD streaming of Telugu, Hindi, and Hollywood movies on MoviesFlix444." />
-    <meta property="og:image" content="https://moviesflix444.vercel.app/preview.jpg" />
-    <meta property="og:url" content="https://moviesflix444.vercel.app" />
-    <meta property="og:type" content="website" />
+  .wrap{max-width:1020px; margin:0 auto; padding:0 22px}
 
-    <!-- ✅ Twitter Card Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="MoviesFlix444 – Watch Latest Movies & Series" />
-    <meta name="twitter:description" content="Watch the latest Telugu, Hindi, and English movies online free on MoviesFlix444." />
-    <meta name="twitter:image" content="https://moviesflix444.vercel.app/preview.jpg" />
+  /* ---------- hero ---------- */
+  .hero{padding:74px 0 30px; position:relative}
+  .boot{font-family:var(--f-mono); font-size:12.5px; letter-spacing:.14em; color:var(--cyan); text-transform:uppercase; display:inline-flex; gap:10px; align-items:center; margin-bottom:22px; opacity:0; animation:fadeUp .6s .05s forwards}
+  .boot::before{content:"▸"; color:var(--violet)}
+  .hero h1{font-family:var(--f-disp); font-weight:700; font-size:clamp(2.3rem,6.4vw,4rem); line-height:1.02; letter-spacing:-.025em; margin:0 0 20px; opacity:0; animation:fadeUp .7s .12s forwards}
+  .hero h1 .grad{background:linear-gradient(100deg,var(--cyan),var(--violet)); -webkit-background-clip:text; background-clip:text; color:transparent}
+  .lede{font-size:clamp(1.05rem,2.1vw,1.28rem); color:var(--dim); max-width:64ch; margin:0; opacity:0; animation:fadeUp .7s .2s forwards}
+  .lede b{color:var(--ink)}
+  @keyframes fadeUp{from{opacity:0; transform:translateY(14px)}to{opacity:1; transform:none}}
 
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+  .stats{display:flex; flex-wrap:wrap; gap:12px; margin:34px 0 6px; opacity:0; animation:fadeUp .7s .3s forwards}
+  .stat{background:linear-gradient(180deg,var(--panel),var(--panel2)); border:1px solid var(--line); border-radius:14px; padding:14px 18px; min-width:118px}
+  .stat .n{font-family:var(--f-disp); font-weight:700; font-size:1.7rem; color:#fff; line-height:1}
+  .stat .l{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--faint); margin-top:6px}
+
+  .howto{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:30px 0 8px}
+  @media(max-width:760px){.howto{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:420px){.howto{grid-template-columns:1fr}}
+  .how{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:15px 15px 16px; transition:.2s}
+  .how:hover{border-color:var(--cyan-soft); transform:translateY(-2px)}
+  .how .s{font-family:var(--f-mono); font-size:10.5px; color:var(--cyan)}
+  .how h4{font-family:var(--f-disp); font-size:.95rem; margin:6px 0 5px; color:#fff}
+  .how p{margin:0; font-size:.84rem; color:var(--dim); line-height:1.5}
+
+  .legend{display:flex; flex-wrap:wrap; gap:8px 18px; margin:26px 0 4px; font-size:.82rem; color:var(--dim)}
+  .legend span{display:inline-flex; align-items:center; gap:7px}
+
+  /* ---------- system map ---------- */
+  .sec-lab{font-family:var(--f-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--violet); display:inline-flex; align-items:center; gap:9px; margin:56px 0 16px}
+  .sec-lab::before{content:""; width:24px; height:2px; background:var(--violet)}
+  .map{display:grid; grid-template-columns:repeat(auto-fill,minmax(155px,1fr)); gap:11px}
+  .mapcard{display:flex; gap:11px; align-items:center; text-decoration:none; background:var(--panel); border:1px solid var(--line); border-radius:13px; padding:11px 12px; transition:.2s; color:var(--ink)}
+  .mapcard:hover{border-color:var(--cyan); transform:translateY(-2px); box-shadow:0 8px 26px rgba(0,0,0,.35)}
+  .ring{--p:0; flex:0 0 auto; width:38px; height:38px; border-radius:50%; display:grid; place-items:center; background:conic-gradient(var(--cyan) calc(var(--p)*1%), #1a2740 0); position:relative}
+  .ring::before{content:""; position:absolute; inset:3px; border-radius:50%; background:var(--panel)}
+  .ring span{position:relative; font-family:var(--f-mono); font-size:11px; color:var(--cyan); font-weight:700}
+  .mapcard .mt{display:flex; flex-direction:column; min-width:0}
+  .mapcard .mt b{font-family:var(--f-disp); font-size:.85rem; color:#fff; line-height:1.15; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .mapcard .mt em{font-style:normal; font-family:var(--f-mono); font-size:9.5px; color:var(--faint); letter-spacing:.04em}
+
+  /* ---------- the build rail ---------- */
+  .track{position:relative; padding:48px 0 30px}
+  .track::before{content:""; position:absolute; left:23px; top:40px; bottom:120px; width:2px; background:linear-gradient(var(--cyan),var(--violet)); opacity:.5; box-shadow:0 0 12px rgba(58,225,240,.3)}
+  @media(max-width:660px){.track::before{display:none}}
+
+  .phase{position:relative; margin:0 0 16px; scroll-margin-top:80px}
+  .phase[open]{margin-bottom:26px}
+  summary.phead{list-style:none; cursor:pointer; display:flex; gap:18px; align-items:flex-start; padding:10px 0; outline:none; border-radius:12px}
+  summary.phead::-webkit-details-marker{display:none}
+  summary.phead:focus-visible{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--cyan)}
+  .node{position:relative; z-index:2; flex:0 0 auto; width:48px; height:48px; border-radius:50%; background:var(--panel); border:2px solid #26364f; color:var(--faint); display:grid; place-items:center; transition:.25s}
+  .node-n{font-family:var(--f-mono); font-size:13px; font-weight:700}
+  .node-ok{display:none; font-size:20px; color:var(--bg)}
+  .node[data-state="partial"]{border-color:var(--cyan); color:var(--cyan); box-shadow:var(--glow-cyan)}
+  .node[data-state="done"]{border-color:var(--lime); background:var(--lime); box-shadow:0 0 0 1px rgba(84,227,154,.4),0 0 20px rgba(84,227,154,.35)}
+  .node[data-state="done"] .node-n{display:none}
+  .node[data-state="done"] .node-ok{display:block}
+  @media(max-width:660px){.node{width:40px;height:40px}}
+
+  .phead-main{flex:1; min-width:0; display:flex; flex-direction:column; gap:4px; padding-top:1px}
+  .peyebrow{font-family:var(--f-mono); font-size:11px; color:var(--faint); letter-spacing:.04em}
+  .pcount{color:var(--cyan); font-weight:700}
+  .ptitle{font-family:var(--f-disp); font-weight:600; font-size:clamp(1.2rem,2.7vw,1.6rem); color:#fff; line-height:1.15; letter-spacing:-.01em}
+  .ptag{font-size:.9rem; color:var(--dim); line-height:1.45}
+  .ptag b{color:var(--cyan); font-weight:600}
+  .pmeter{height:5px; background:#0c1421; border:1px solid var(--line); border-radius:99px; overflow:hidden; margin-top:8px; max-width:360px}
+  .pmeter i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--cyan),var(--violet)); border-radius:99px; transition:width .5s ease}
+  .chev{margin-left:auto; align-self:center; font-family:var(--f-disp); color:var(--faint); font-size:1.1rem; transition:transform .25s; padding-left:8px}
+  .phase[open] .chev{transform:rotate(90deg); color:var(--cyan)}
+
+  .pbody{padding:14px 0 4px 66px}
+  @media(max-width:660px){.pbody{padding-left:0}}
+
+  /* ---------- module ---------- */
+  .module{background:linear-gradient(180deg,var(--panel),var(--panel2)); border:1px solid var(--line); border-radius:16px; padding:18px 20px 20px; margin:0 0 14px; position:relative; overflow:hidden}
+  .module::before{content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:linear-gradient(var(--cyan),var(--violet)); opacity:.8}
+  .mhead{display:flex; align-items:center; gap:11px; margin-bottom:4px; flex-wrap:wrap}
+  .mtag{font-family:var(--f-mono); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--violet); border:1px solid rgba(139,124,255,.3); background:rgba(139,124,255,.08); padding:3px 8px; border-radius:6px}
+  .mhead h3{font-family:var(--f-disp); font-weight:600; font-size:1.14rem; margin:0; color:#fff; line-height:1.25}
+  .mgoal{margin:6px 0 14px; font-size:.9rem; color:var(--dim)}
+  .mgoal b{color:var(--ink)}
+
+  .subs{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:2px}
+  .sub{display:flex; gap:12px; align-items:flex-start; padding:8px 10px; border-radius:10px; transition:background .15s}
+  .sub:hover{background:rgba(58,225,240,.05)}
+  .sub .cwrap{position:relative; flex:0 0 auto; padding-top:1px}
+  .sub input{position:absolute; opacity:0; width:20px; height:20px; margin:0; cursor:pointer}
+  .tick{display:block; width:20px; height:20px; border-radius:6px; border:2px solid #2b3c58; background:#0d1522; position:relative; transition:.16s}
+  .tick::after{content:""; position:absolute; left:5px; top:1.5px; width:6px; height:11px; border:solid var(--bg); border-width:0 2.5px 2.5px 0; transform:rotate(45deg) scale(0); transition:transform .16s}
+  .sub input:hover + .tick{border-color:var(--cyan)}
+  .sub input:focus-visible + .tick{box-shadow:0 0 0 3px rgba(58,225,240,.25)}
+  .sub input:checked + .tick{background:var(--lime); border-color:var(--lime); box-shadow:0 0 10px rgba(84,227,154,.4)}
+  .sub input:checked + .tick::after{transform:rotate(45deg) scale(1)}
+  .sub-main{flex:1; min-width:0; font-size:.92rem; line-height:1.5}
+  .sname{color:#fff; font-weight:600}
+  .sub input:checked ~ .sub-main .sname{color:var(--dim); text-decoration:line-through; text-decoration-color:var(--faint)}
+  .sdesc{color:var(--dim)}
+
+  .box{display:flex; gap:11px; align-items:flex-start; margin:14px 0 0; padding:12px 14px; border-radius:12px; font-size:.88rem; line-height:1.55; border:1px solid transparent}
+  .box .bi{flex:0 0 auto}
+  .box b{color:#fff}
+  .box-build{background:rgba(58,225,240,.07); border-color:rgba(58,225,240,.22); color:#cfe9ee}
+  .box-watch{background:rgba(255,122,107,.07); border-color:rgba(255,122,107,.25); color:#f4d4cf}
+  .box-tip{background:rgba(246,184,96,.07); border-color:rgba(246,184,96,.25); color:#f2e2c6}
+  .box-prereq{background:rgba(139,124,255,.08); border-color:rgba(139,124,255,.28); color:#ded9ff; margin:0 0 16px}
+
+  .reveal{opacity:0; transform:translateY(18px)}
+  .reveal.in{opacity:1; transform:none; transition:opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1)}
+
+  .foot{border-top:1px solid var(--line); margin-top:26px; padding:44px 0 80px; color:var(--dim); font-size:.92rem}
+  .foot h3{font-family:var(--f-disp); color:#fff; font-size:1.35rem; margin:0 0 12px}
+  .foot p{margin:0 0 12px; max-width:74ch}
+  .foot .mono{font-family:var(--f-mono); font-size:.78rem; color:var(--faint); margin-top:20px}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none!important; transition:none!important}
+    .reveal{opacity:1; transform:none}
+    .boot,.hero h1,.lede,.stats{opacity:1!important; transform:none!important}
+    html{scroll-behavior:auto}
+  }
+  /* ---------- subtopic lesson ---------- */
+  .sub{display:block; padding:0; border-radius:10px}
+  .sub:hover{background:none}
+  .sub-top{display:flex; gap:12px; align-items:flex-start; padding:8px 10px; border-radius:10px; cursor:pointer; transition:background .15s}
+  .sub-top:hover{background:rgba(58,225,240,.06)}
+  .learn{display:inline-block; margin-left:9px; font-family:var(--f-mono); font-size:10px; letter-spacing:.03em; color:var(--cyan); border:1px solid rgba(58,225,240,.3); background:rgba(58,225,240,.07); padding:2px 8px; border-radius:6px; white-space:nowrap; vertical-align:middle; transition:.15s; user-select:none}
+  .sub-top:hover .learn{background:rgba(58,225,240,.16); border-color:var(--cyan)}
+  .sub.open .learn{color:var(--violet); border-color:rgba(139,124,255,.45); background:rgba(139,124,255,.12)}
+  .copyp{display:inline-block; margin-left:8px; font-family:var(--f-mono); font-size:10px; letter-spacing:.03em; color:var(--violet); border:1px solid rgba(139,124,255,.32); background:rgba(139,124,255,.08); padding:2px 8px; border-radius:6px; white-space:nowrap; vertical-align:middle; cursor:pointer; transition:.15s; user-select:none}
+  .copyp:hover{background:rgba(139,124,255,.2); border-color:var(--violet)}
+  .btn-savel.prompt{color:var(--violet); border-color:rgba(139,124,255,.4); background:rgba(139,124,255,.08)}
+  .btn-savel.prompt:hover{background:rgba(139,124,255,.18)}
+  .lesson{display:none; margin:4px 6px 10px 34px; border:1px solid var(--line); border-left:3px solid var(--violet); border-radius:12px; background:#0a1120; overflow:hidden}
+  .sub.open .lesson{display:block; animation:fadeUp .35s ease}
+  @media(max-width:600px){.lesson{margin-left:6px}}
+  .lesson-head{display:flex; align-items:center; gap:10px; padding:11px 16px; border-bottom:1px solid var(--line); background:linear-gradient(90deg,rgba(139,124,255,.12),transparent)}
+  .lesson-head .lh-ic{font-size:15px}
+  .lesson-head .lh-t{font-family:var(--f-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--violet)}
+  .lesson-body{padding:16px 18px 6px; font-size:.94rem; line-height:1.72; color:var(--ink)}
+  .lesson-body > :first-child{margin-top:0}
+  .lesson-body h1,.lesson-body h2,.lesson-body h3,.lesson-body h4{font-family:var(--f-disp); color:#fff; line-height:1.25; margin:22px 0 9px; letter-spacing:-.01em}
+  .lesson-body h1{font-size:1.32rem} .lesson-body h2{font-size:1.16rem} .lesson-body h3{font-size:1.03rem} .lesson-body h4{font-size:.96rem; color:var(--cyan)}
+  .lesson-body p{margin:0 0 12px}
+  .lesson-body ul,.lesson-body ol{margin:0 0 13px; padding-left:22px}
+  .lesson-body li{margin:5px 0}
+  .lesson-body li::marker{color:var(--cyan)}
+  .lesson-body strong{color:#fff}
+  .lesson-body a{color:var(--cyan)}
+  .lesson-body pre{background:#060a12; border:1px solid var(--line); border-radius:10px; padding:14px 16px; overflow-x:auto; margin:0 0 14px}
+  .lesson-body pre code{font-family:var(--f-mono); font-size:.82rem; color:#dbe6f6; background:none; border:none; white-space:pre; padding:0; line-height:1.58}
+  .lesson-body :not(pre) > code{font-family:var(--f-mono); font-size:.85em; color:var(--cyan); background:rgba(58,225,240,.09); border:1px solid rgba(58,225,240,.18); padding:.05em .38em; border-radius:5px; white-space:normal}
+  .lesson-body blockquote{border-left:3px solid var(--amber); background:rgba(246,184,96,.07); margin:0 0 14px; padding:9px 14px; border-radius:0 8px 8px 0; color:#f2e2c6}
+  .lesson-body blockquote p{margin:0}
+  .lesson-body table{border-collapse:collapse; width:100%; margin:0 0 14px; font-size:.85rem; display:block; overflow-x:auto}
+  .lesson-body th,.lesson-body td{border:1px solid var(--line); padding:7px 11px; text-align:left}
+  .lesson-body th{background:var(--panel-hi); color:#fff}
+  .lesson-body hr{border:none; border-top:1px solid var(--line); margin:18px 0}
+  .lesson-body .mermaid{background:#0b1322; border:1px solid var(--line); border-radius:10px; padding:16px; margin:4px 0 16px; text-align:center; overflow-x:auto; max-width:100%}
+  .lesson-body .mermaid svg{display:block; margin:0 auto; width:100%; height:auto}
+  .lesson-body .mermaid[data-processed] svg{min-width:0}
+  .mermaid foreignObject{overflow:visible !important; width:auto !important; height:auto !important}
+  .mermaid foreignObject div, .mermaid foreignObject span{display:inline-block !important; white-space:nowrap !important; overflow:visible !important}
+  .mermaid .node rect, .mermaid .node polygon, .mermaid .node circle{overflow:visible}
+  .mermaid .nodeLabel{white-space:nowrap !important}
+  .lesson-foot{padding:6px 18px 18px}
+  .btn-learned{font-family:var(--f-mono); font-size:12px; color:var(--lime); border:1px solid rgba(84,227,154,.4); background:rgba(84,227,154,.09); padding:9px 15px; border-radius:9px; cursor:pointer; transition:.15s}
+  .btn-learned:hover{background:rgba(84,227,154,.18)}
+  .btn-retry{font-family:var(--f-mono); font-size:12px; color:var(--cyan); border:1px solid rgba(58,225,240,.4); background:rgba(58,225,240,.09); padding:8px 14px; border-radius:8px; cursor:pointer}
+  .lgen{display:flex; flex-direction:column; gap:12px; padding:22px 18px}
+  .lgen-msg{font-family:var(--f-mono); font-size:12px; color:var(--dim)}
+  .lgen-msg b{color:var(--cyan)}
+  .lgen-bar{height:6px; border-radius:99px; background:#0c1421; border:1px solid var(--line); overflow:hidden; position:relative}
+  .lgen-bar::after{content:""; position:absolute; top:0; bottom:0; left:0; width:38%; background:linear-gradient(90deg,transparent,var(--cyan),var(--violet),transparent); animation:scan 1.25s linear infinite}
+  @keyframes scan{0%{transform:translateX(-120%)}100%{transform:translateX(330%)}}
+  .lerr{padding:16px 18px; color:#f4d4cf; font-size:.9rem; line-height:1.6}
+  .lerr b{color:var(--rose)}
+  /* ---------- save/load toolbar + toast ---------- */
+  .tools{display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:24px 0 4px; padding:15px 17px; background:linear-gradient(180deg,var(--panel),var(--panel2)); border:1px solid var(--line); border-radius:14px}
+  .tools-lab{font-family:var(--f-mono); font-size:11px; letter-spacing:.07em; text-transform:uppercase; color:var(--violet)}
+  .tbtn{font-family:var(--f-mono); font-size:12px; color:var(--cyan); background:rgba(58,225,240,.08); border:1px solid rgba(58,225,240,.3); padding:8px 13px; border-radius:9px; cursor:pointer; transition:.15s; white-space:nowrap}
+  .tbtn:hover{background:rgba(58,225,240,.18); transform:translateY(-1px)}
+  .tbtn.alt{color:var(--violet); background:rgba(139,124,255,.08); border-color:rgba(139,124,255,.3)}
+  .tbtn.alt:hover{background:rgba(139,124,255,.18)}
+  .tbtn.on{color:var(--lime); background:rgba(84,227,154,.1); border-color:rgba(84,227,154,.4)}
+  .tbtn.book{color:var(--amber); background:rgba(246,184,96,.08); border-color:rgba(246,184,96,.3)}
+  .tbtn.book:hover{background:rgba(246,184,96,.18)}
+  .btn-savel{font-family:var(--f-mono); font-size:12px; color:var(--cyan); border:1px solid rgba(58,225,240,.35); background:rgba(58,225,240,.08); padding:9px 15px; border-radius:9px; cursor:pointer; transition:.15s; margin-left:8px}
+  .btn-savel:hover{background:rgba(58,225,240,.18)}
+  .tools-note{flex-basis:100%; font-size:.79rem; color:var(--faint); line-height:1.55; margin-top:2px}
+  .tools-note b{color:var(--dim)}
+  .toast{position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(20px); background:var(--panel-hi); border:1px solid var(--cyan); color:var(--ink); font-size:.86rem; line-height:1.5; padding:12px 18px; border-radius:12px; box-shadow:0 12px 34px rgba(0,0,0,.55); opacity:0; pointer-events:none; transition:.3s; z-index:200; max-width:min(90vw,460px)}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+  .toast.err{border-color:var(--rose)}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script>
+</head>
+<body>
+<div class="bg"></div>
+<div class="bg-grid"></div>
+
+<div class="hud">
+  <div class="hud-in">
+    <span class="hud-brand"><span class="dot"></span>MICROSERVICES.MASTERY</span>
+    <div class="hud-track"><div class="hud-fill" id="fill"></div></div>
+    <span class="hud-meta"><span id="pct">0%</span><span id="count">0 / 0</span></span>
+  </div>
+</div>
+
+<div class="wrap">
+  <header class="hero">
+    <span class="boot" id="boot">initializing curriculum</span>
+    <h1>Become a <span class="grad">microservices engineer</span>.<br>Nothing skipped. Nothing assumed.</h1>
+    <p class="lede">A step-by-step build path from your first line of Java to a live system on AWS. Every stage breaks into <b>modules</b>, every module into the <b>exact subtopics</b> to learn — in order. And <b>tap any subtopic</b> to open its own full tutorial: flowchart, real code with input &amp; output, and step-by-step walkthrough, written for you on the spot.</p>
+
+    <div class="stats" id="stats">
+      <div class="stat"><div class="n" data-count="15">0</div><div class="l">Phases</div></div>
+      <div class="stat"><div class="n" data-count="0" id="stat-mod">0</div><div class="l">Modules</div></div>
+      <div class="stat"><div class="n" data-count="0" id="stat-sub">0</div><div class="l">Subtopics</div></div>
+      <div class="stat"><div class="n">0→∞</div><div class="l">Local → Cloud</div></div>
+    </div>
+
+    <div class="howto">
+      <div class="how"><div class="s">// 01</div><h4>Top to bottom</h4><p>The order is the lesson. Each phase is built from the ones above it.</p></div>
+      <div class="how"><div class="s">// 02</div><h4>Tap a topic → full lesson</h4><p>Every subtopic opens its own deep tutorial: flowchart, code, input/output, steps. Learn it, then tick it.</p></div>
+      <div class="how"><div class="s">// 03</div><h4>Build after each module</h4><p>The 🛠 line is your mini-project. Typing it is how it sticks.</p></div>
+      <div class="how"><div class="s">// 04</div><h4>Never skip 🔒</h4><p>A lock is a prerequisite. Don't move past it until it's comfortable.</p></div>
+    </div>
+
+    <div class="legend">
+      <span>📖 tap any topic → full lesson</span><span>🔒 prerequisite</span><span>🛠 build this</span><span>⚠️ watch out</span><span>💡 pro tip</span><span>✅ green = mastered</span>
+    </div>
+
+    <div class="tools">
+      <span class="tools-lab">💾 Keep your lessons</span>
+      <button class="tbtn" id="btn-save" onclick="saveFile()">⬇ Save to file</button>
+      <button class="tbtn" id="btn-load" onclick="document.getElementById('lessonfile').click()">⬆ Load from file</button>
+      <button class="tbtn alt" id="btn-sync" onclick="linkFile()">🔗 Auto-sync to disk</button>
+      <button class="tbtn book" id="btn-book" onclick="exportHandbook()">⬇ Save all as HTML</button>
+      <input type="file" id="lessonfile" accept="application/json,.json" style="display:none" onchange="loadFile(this)">
+      <span class="tools-note"><b id="saved-n">0</b> lesson(s) stored. Lessons you open are saved automatically in this browser — but browsers can clear that. Click <b>Save to file</b> to keep a permanent copy on your system; <b>Load from file</b> restores it anywhere and opens every saved lesson instantly, no internet needed. <b>Auto-sync</b> (Chrome/Edge) writes each new lesson to a file on your disk as you go.</span>
+    </div>
+  </header>
+
+  <section>
+    <span class="sec-lab">System map · 15 phases</span>
+    <div class="map" id="map"></div>
+  </section>
+</div>
+
+<main class="wrap track" id="track"></main>
+
+<footer class="wrap foot">
+  <h3>End of the map. The real work is the reps.</h3>
+  <p>Finishing every subtopic means you can design, code, containerize, secure, observe, deploy and operate a real microservices system on the cloud — the exact skill set backend roles hire for.</p>
+  <p><b>Now:</b> rebuild the whole system from an empty folder with this file closed. Push it to GitHub with a clear README and an architecture diagram — that repo is your portfolio. Then practice saying <em>why</em> you chose each piece out loud, because interviews are mostly "why this, not that?"</p>
+  <p><b>When stuck</b> (constantly, for everyone): read the error slowly, search it word-for-word, check official docs before random blogs. Getting unstuck fast is itself the skill.</p>
+  <p class="mono">Single offline file · progress saved locally in this browser · go slow, you'll get there.</p>
+</footer>
+
+<script>
+/* ============ engine ============ */
+var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var DKEY="mmr_v2_done";
+var CTX={};            // subtopic id -> teaching context
+var mem={};            // last-resort in-memory store
+var store={
+  get:async function(k){ try{ if(window.storage){var r=await window.storage.get(k); return r?r.value:null;} if(window.localStorage){return localStorage.getItem(k);} }catch(e){} return (k in mem)?mem[k]:null; },
+  set:async function(k,v){ try{ if(window.storage){await window.storage.set(k,v); return;} if(window.localStorage){localStorage.setItem(k,v); return;} }catch(e){} mem[k]=v; },
+  list:async function(prefix){ try{ if(window.storage&&window.storage.list){ var r=await window.storage.list(prefix); var ks=(r&&r.keys)?r.keys:[]; return ks.map(function(x){return typeof x==="string"?x:(x&&x.key)}).filter(Boolean); } if(window.localStorage){ var out=[]; for(var i=0;i<localStorage.length;i++){ var k=localStorage.key(i); if(k&&k.indexOf(prefix)===0) out.push(k);} return out; } }catch(e){} return Object.keys(mem).filter(function(k){return k.indexOf(prefix)===0}); }
+};
+var LESSONS={};        // id -> markdown (all generated/loaded lessons, for export)
+var fsHandle=null;     // linked on-disk file (File System Access API), if used
+var syncTimer=null;
+var done=new Set();
+function persistDone(){ store.set(DKEY, JSON.stringify(Array.from(done))); }
+function syncChecks(){ document.querySelectorAll(".sc").forEach(function(cb){ cb.checked=done.has(cb.id); }); }
+async function loadDone(){ var raw=await store.get(DKEY); if(raw){ try{ JSON.parse(raw).forEach(function(x){done.add(x)}); }catch(e){} } syncChecks(); recount(); }
+
+function subId(p,mi,si){return p+"."+mi+"."+si}
+
+function boxHTML(kind,ic,label,text){return '<div class="box box-'+kind+'"><span class="bi">'+ic+'</span><span><b>'+label+'</b> '+text+'</span></div>'}
+
+function moduleHTML(pid,mi,mod,phaseTitle){
+  var subs=(mod.sub||[]).map(function(s,si){
+    var id=subId(pid,mi,si);
+    var desc=s.d?' <span class="sdesc">— '+s.d+'</span>':'';
+    return '<li class="sub" data-id="'+id+'">'
+      +'<div class="sub-top">'
+      +'<label class="cwrap"><input type="checkbox" class="sc" id="'+id+'"><span class="tick"></span></label>'
+      +'<div class="sub-main"><span class="sname">'+s.s+'</span>'+desc
+      +' <span class="learn">Open lesson &#9656;</span>'
+      +' <span class="copyp" onclick="event.stopPropagation(); copyPrompt(\''+id+'\', this)" title="Copy a ready teaching prompt to paste into a Claude chat">&#8942;&#8203; Copy prompt</span>'
+      +'</div>'
+      +'</div>'
+      +'<div class="lesson" data-for="'+id+'"></div>'
+      +'</li>';
+  }).join("");
+  var build=mod.build?boxHTML("build","🛠","Build it:",mod.build):"";
+  var watch=mod.watch?boxHTML("watch","⚠️","Watch out:",mod.watch):"";
+  var tip=mod.tip?boxHTML("tip","💡","Tip:",mod.tip):"";
+  return '<div class="module"><div class="mhead"><span class="mtag">Module '+(mi+1)+'</span><h3>'+mod.m+'</h3></div>'
+    +(mod.goal?'<p class="mgoal">🎯 <b>Goal:</b> '+mod.goal+'</p>':'')
+    +'<ul class="subs">'+subs+'</ul>'+build+tip+watch+'</div>';
+}
+function strip(h){var d=document.createElement("div"); d.innerHTML=h||""; return (d.textContent||"").trim();}
+
+/* One continuous story: every subtopic knows the whole journey + what came before/after. */
+var JOURNEY="This is ONE continuous project: the learner builds a single real backend system from scratch and grows it stage by stage — each stage exists only because the previous stage created the need for it. The arc: master core Java & tools, then build a Spring Boot service, then learn microservices design to split that service, then Dockerize the services, then externalize configuration, add service discovery, put an API gateway in front, make it resilient, add observability, secure it, make it event-driven, run it on Kubernetes, automate delivery with CI/CD & GitOps, deploy it on AWS, and finally polish it like a senior engineer. Spring Boot services are WHY we learn microservices; splitting into microservices is WHY we must Dockerize; many containers are WHY we need Kubernetes; running Kubernetes for real is WHY we go to AWS. Never teach a topic as an isolated item — always as the next move in building this one system.";
+function buildContext(){
+  var order=[];
+  PHASES.forEach(function(p){ p.modules.forEach(function(m,mi){ (m.sub||[]).forEach(function(s,si){ order.push({id:subId(p.id,mi,si), p:p, m:m, s:s}); }); }); });
+  order.forEach(function(o, gi){
+    var prev=order[gi-1], next=order[gi+1];
+    CTX[o.id]={
+      phase:strip(o.p.title), phaseNum:o.p.n, phaseTag:strip(o.p.tag||""),
+      module:strip(o.m.m), goal:strip(o.m.goal||""),
+      name:strip(o.s.s), desc:strip(o.s.d||""),
+      prevName:prev?strip(prev.s.s):"", prevPhase:(prev&&prev.p!==o.p)?strip(prev.p.title):"",
+      nextName:next?strip(next.s.s):"", nextPhase:(next&&next.p!==o.p)?strip(next.p.title):"",
+      idx:gi+1, total:order.length
+    };
+  });
+}
+
+/* Ready-made teaching prompt for pasting into a fresh Claude chat. */
+function buildPromptText(id){
+  var c=CTX[id]||{};
+  return "You are the world's best software-engineering teacher. I'm learning backend development as ONE continuous project, not isolated topics.\n\n"
+    + JOURNEY + "\n\n"
+    + "I'm at Phase "+c.phaseNum+" ("+c.phase+") — module \""+c.module+"\" — step "+c.idx+" of "+c.total+" in the whole journey.\n"
+    + (c.prevName ? ("I just finished: \""+c.prevName+"\". ") : "")
+    + (c.prevPhase ? ("(That completed the \""+c.prevPhase+"\" stage.) ") : "")
+    + "\n"
+    + "Teach me THIS next step in ultra depth: \""+c.name+"\""+(c.desc?(" — "+c.desc):"")+".\n\n"
+    + "Please:\n"
+    + "1) Start by connecting to what I just built and the concrete need that makes THIS the next step (continuity, not a standalone topic).\n"
+    + "2) Teach deeply and simply with strong flow.\n"
+    + "3) Make it as VISUAL as possible: include several diagrams — mermaid flowcharts and sequence diagrams (top-down, short labels), and where it helps, hand-drawn SVG diagrams (architecture, request flow, or a labeled schematic of a console screen). Draw these with code so they render as real graphics. (Note: you can't generate photos/screenshots, so use diagrams/SVG instead — that's expected.)\n"
+    + "4) Give COMPLETE, real, runnable code; after each snippet clearly state **Input**, **Output**, and a line-by-line **What happens**.\n"
+    + "5) If it's a GUI/console/setup task, give exact numbered click-by-click steps.\n"
+    + "6) End with what this unlocks next"+(c.nextName?(" (which leads toward \""+c.nextName+"\")"):"")+" in the project.";
+}
+function fallbackCopy(txt){ try{ var ta=document.createElement("textarea"); ta.value=txt; ta.style.position="fixed"; ta.style.left="-9999px"; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove(); return true; }catch(e){ return false; } }
+function copyPrompt(id, el){
+  var txt=buildPromptText(id);
+  var flash=function(){ if(el){ var t=el.innerHTML; el.innerHTML="&#10003; Copied"; setTimeout(function(){ el.innerHTML=t; }, 1600); } toast("Teaching prompt copied — paste it into a Claude chat for the fullest lesson."); };
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(flash, function(){ fallbackCopy(txt); flash(); }); }
+    else { fallbackCopy(txt); flash(); }
+  }catch(e){ fallbackCopy(txt); flash(); }
+}
+
+function phaseHTML(p){
+  var pre=p.prereq?boxHTML("prereq","🔒","Before this phase:",p.prereq):"";
+  var mods=p.modules.map(function(m,mi){return moduleHTML(p.id,mi,m,strip(p.title))}).join("");
+  var nsub=p.modules.reduce(function(a,m){return a+(m.sub?m.sub.length:0)},0);
+  return '<details class="phase reveal" id="'+p.id+'"'+(p.open?" open":"")+'>'
+    +'<summary class="phead">'
+    +'<span class="node" data-node="'+p.id+'" data-state="todo"><span class="node-n">'+p.n+'</span><span class="node-ok">✓</span></span>'
+    +'<span class="phead-main">'
+    +'<span class="peyebrow">PHASE '+p.n+' · '+p.weeks+' · <span class="pcount" data-pc="'+p.id+'">0/'+nsub+'</span> subtopics</span>'
+    +'<span class="ptitle">'+p.emoji+' '+p.title+'</span>'
+    +'<span class="ptag"><b>Outcome:</b> '+p.tag+'</span>'
+    +'<span class="pmeter"><i data-pm="'+p.id+'"></i></span>'
+    +'</span><span class="chev">▸</span></summary>'
+    +'<div class="pbody">'+pre+mods+'</div></details>';
+}
+
+function attach(){
+  document.querySelectorAll(".sc").forEach(function(cb){
+    if(done.has(cb.id)) cb.checked=true;
+    cb.addEventListener("click",function(e){ e.stopPropagation(); });
+    cb.addEventListener("change",function(){
+      if(cb.checked) done.add(cb.id); else done.delete(cb.id);
+      persistDone(); recount();
+    });
+  });
+  document.querySelectorAll(".cwrap").forEach(function(l){
+    l.addEventListener("click",function(e){ e.stopPropagation(); });
+  });
+  document.querySelectorAll(".sub-top").forEach(function(top){
+    top.addEventListener("click",function(){ toggleLesson(top.closest(".sub")); });
+  });
+  document.querySelectorAll(".mapcard").forEach(function(c){
+    c.addEventListener("click",function(e){
+      e.preventDefault();
+      var el=document.getElementById(c.getAttribute("data-t"));
+      if(el){el.open=true; el.scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"})}
+    });
+  });
+}
+
+/* ============ on-demand lessons (Claude in the page) ============ */
+function lessonKey(id){return "lesson:"+id}
+
+function toggleLesson(li){
+  if(!li) return;
+  var panel=li.querySelector(".lesson");
+  if(li.classList.contains("open")){ li.classList.remove("open"); return; }
+  li.classList.add("open");
+  if(panel.getAttribute("data-loaded")==="1") return;
+  loadLesson(li.getAttribute("data-id"), panel);
+}
+
+async function loadLesson(id, panel){
+  panel.setAttribute("data-loaded","working");
+  if(LESSONS[id]){ renderLesson(panel, LESSONS[id]); return; }
+  var cached=await store.get(lessonKey(id));
+  if(cached){ LESSONS[id]=cached; renderLesson(panel, cached); return; }
+  panel.innerHTML=loaderHTML();
+  try{
+    var md=await generate(id);
+    if(!md || !md.trim()) throw new Error("empty");
+    LESSONS[id]=md; store.set(lessonKey(id), md); scheduleSync(); updateCounts();
+    renderLesson(panel, md);
+  }catch(e){
+    console.error("lesson generation failed:", e);
+    panel.setAttribute("data-loaded","0");
+    var offline=(location.protocol==="file:");
+    var msg = offline
+      ? '<b>⚠️ This is a downloaded, offline copy.</b><br>New lessons can only be written by the copy running <b>inside the Claude app/website</b> — Claude\'s servers do the writing there. A file opened straight from your computer (address bar shows <code>file:///…</code>) has no link to the model.<br><br><b>Fix:</b> open this roadmap in the Claude chat, tap the topics you want to generate them, click <b>Save to file</b>, then here in the offline copy click <b>Load from file</b>. Saved lessons open with no internet.'
+      : '<b>⚠️ Couldn\'t reach the model to write this lesson.</b><br>Live writing runs inside the Claude app/website with internet. A VPN, firewall, or ad-block/privacy extension can also block it.<br><span style="opacity:.65">Details: '+String((e&&e.message)||e)+'</span><br><br>Retry, or use <b>Load from file</b> to open lessons you already saved.';
+    panel.innerHTML='<div class="lerr">'+msg+'<div style="margin-top:12px"><button class="btn-retry" onclick="retryLesson(this)">Try again</button></div></div>';
+  }
+}
+function retryLesson(btn){ var p=btn.closest(".lesson"); loadLesson(p.getAttribute("data-for"), p); }
+
+/* ---- pull every previously-saved lesson into memory so exports are complete ---- */
+async function hydrateLessons(){
+  try{
+    var keys=await store.list("lesson:");
+    for(var i=0;i<keys.length;i++){ var id=keys[i].slice(8); if(!LESSONS[id]){ var md=await store.get(keys[i]); if(md) LESSONS[id]=md; } }
+  }catch(e){}
+  updateCounts();
+}
+function lessonCount(){ return Object.keys(LESSONS).length; }
+function updateCounts(){ var el=document.getElementById("saved-n"); if(el) el.textContent=lessonCount(); }
+
+/* ---- toast ---- */
+function toast(msg, err){
+  var t=document.getElementById("toast");
+  if(!t){ t=document.createElement("div"); t.id="toast"; document.body.appendChild(t); }
+  t.textContent=msg; t.className="toast show"+(err?" err":"");
+  clearTimeout(t._h); t._h=setTimeout(function(){ t.className="toast"+(err?" err":""); }, 4200);
+}
+
+/* ---- save / load a permanent lesson file ---- */
+function packJSON(){ return JSON.stringify({ app:"microservices-mastery", v:2, saved:new Date().toISOString(), lessons:LESSONS, done:Array.from(done) }); }
+function saveFile(){
+  try{
+    var blob=new Blob([packJSON()], {type:"application/json"});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement("a"); a.href=url; a.download="microservices-lessons.json";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 5000);
+    toast("Saved "+lessonCount()+" lesson(s) + progress to your downloads. Keep this file — Load it anytime.");
+  }catch(e){ toast("Save failed in this browser.", true); }
+}
+function loadFile(input){
+  var f=input.files && input.files[0]; if(!f) return;
+  var r=new FileReader();
+  r.onload=function(){ try{ mergePack(JSON.parse(r.result)); }catch(e){ toast("That file couldn't be read.", true); } };
+  r.onerror=function(){ toast("Couldn't read that file.", true); };
+  r.readAsText(f); input.value="";
+}
+function mergePack(d){
+  var n=0;
+  if(d && d.lessons){ Object.keys(d.lessons).forEach(function(id){ LESSONS[id]=d.lessons[id]; store.set(lessonKey(id), d.lessons[id]); n++; }); }
+  if(d && d.done){ d.done.forEach(function(x){ done.add(x); }); persistDone(); syncChecks(); recount(); }
+  document.querySelectorAll(".sub.open .lesson").forEach(function(p){ var id=p.getAttribute("data-for"); if(LESSONS[id]) renderLesson(p, LESSONS[id]); });
+  updateCounts();
+  toast("Loaded "+n+" lesson(s). They now open instantly — no internet needed.");
+}
+
+/* ---- optional: auto-sync to a real file on disk (Chrome/Edge) ---- */
+function fsSupported(){ return typeof window.showSaveFilePicker==="function"; }
+function idbOpen(){ return new Promise(function(res,rej){ try{ var o=indexedDB.open("mmr_fs",1); o.onupgradeneeded=function(){ o.result.createObjectStore("h"); }; o.onsuccess=function(){ res(o.result); }; o.onerror=function(){ rej(o.error); }; }catch(e){ rej(e); } }); }
+async function idbSet(k,v){ try{ var db=await idbOpen(); return await new Promise(function(res){ var t=db.transaction("h","readwrite"); t.objectStore("h").put(v,k); t.oncomplete=function(){res(true)}; t.onerror=function(){res(false)}; }); }catch(e){ return false; } }
+async function idbGet(k){ try{ var db=await idbOpen(); return await new Promise(function(res){ var t=db.transaction("h","readonly"); var g=t.objectStore("h").get(k); g.onsuccess=function(){res(g.result||null)}; g.onerror=function(){res(null)}; }); }catch(e){ return null; } }
+async function fsWriteNow(){
+  if(!fsHandle) return;
+  try{
+    if(fsHandle.queryPermission){ var p=await fsHandle.queryPermission({mode:"readwrite"}); if(p!=="granted"){ p=await fsHandle.requestPermission({mode:"readwrite"}); if(p!=="granted") return; } }
+    var w=await fsHandle.createWritable(); await w.write(packJSON()); await w.close();
+  }catch(e){}
+}
+function scheduleSync(){ if(!fsHandle) return; clearTimeout(syncTimer); syncTimer=setTimeout(fsWriteNow, 900); }
+async function linkFile(){
+  if(!fsSupported()){ toast("Auto-sync isn't available in this browser — use Save/Load, which always works.", true); return; }
+  try{
+    fsHandle=await window.showSaveFilePicker({ suggestedName:"microservices-lessons.json", types:[{description:"Lessons file", accept:{"application/json":[".json"]}}] });
+    await idbSet("handle", fsHandle);
+    await fsWriteNow();
+    var b=document.getElementById("btn-sync"); if(b){ b.textContent="🔗 Auto-sync ON"; b.classList.add("on"); }
+    toast("Linked. Every new lesson now saves to that file automatically.");
+  }catch(e){ /* user cancelled the picker */ }
+}
+async function restoreSync(){
+  var b=document.getElementById("btn-sync");
+  if(!fsSupported()){ if(b) b.style.display="none"; return; }
+  try{
+    var h=await idbGet("handle");
+    if(h){
+      fsHandle=h;
+      var p = h.queryPermission ? await h.queryPermission({mode:"readwrite"}) : "granted";
+      if(p==="granted"){
+        try{ var file=await h.getFile(); var txt=await file.text(); if(txt) mergePack(JSON.parse(txt)); }catch(e){}
+        if(b){ b.textContent="🔗 Auto-sync ON"; b.classList.add("on"); }
+      } else if(b){ b.textContent="🔗 Reconnect file"; }
+    }
+  }catch(e){}
+}
+
+function loaderHTML(){
+  return '<div class="lgen">'
+    +'<div class="lgen-msg"><b>Claude is writing your lesson…</b> flowcharts &amp; diagrams, step-by-step, real code with input/output</div>'
+    +'<div class="lgen-bar"></div>'
+    +'<div class="lgen-msg" style="opacity:.65">First time takes ~10–30s. It\'s saved after, so it opens instantly next time.</div>'
+    +'</div>';
+}
+
+async function generate(id){
+  var c=CTX[id]||{};
+  var sys="You are the world's best software-engineering teacher, writing ONE lesson in a continuous, project-based course for a motivated beginner. "
+    +"After reading your lesson, they must NOT need any other resource for this subtopic. Be genuinely thorough and detailed, warm and encouraging, with strong continuity — but no filler.\n\n"
+    +"THE THROUGH-LINE (critical): "+JOURNEY+"\n"
+    +"So this lesson must read like the next scene in building that one system — not a standalone topic. Explicitly link backward and forward.\n\n"
+    +"Output GitHub-flavored Markdown only. Follow this structure:\n"
+    +"1) '## Where we are' — 2-3 sentences: recall what we JUST built (the previous step/stage), name the concrete problem or need it created, and frame THIS subtopic as the exact next move that answers it. Make the learner feel the momentum of one growing project.\n"
+    +"2) A '## Big picture' section with a ```mermaid``` diagram (flowchart TD or sequenceDiagram) showing the concept or flow. Use diagrams generously throughout — aim for 2 to 4 mermaid diagrams total across the lesson (concept, data/flow, and where relevant a schematic screen-layout), so it is genuinely visual.\n"
+    +"3) Step-by-step teaching with short '##'/'###' headings and clear continuity from each step to the next.\n"
+    +"4) For ANY code: give COMPLETE, correct, runnable snippets in fenced code blocks with a language tag. Immediately after EACH snippet, add three bold lines: **Input:** (what goes in / what you run), **Output:** (exactly what you get back), **What happens:** (a short line-by-line walkthrough of the code). This is the most important rule.\n"
+    +"5) If there is runtime behavior, add a ```mermaid``` sequence or flow diagram of how the code executes end to end.\n"
+    +"6) If this is a GUI / console / install / setup task (Docker Desktop, AWS Console, creating an EC2 instance, S3, etc.): you CANNOT show real screenshots, so instead (a) give EXACT numbered click-by-click steps (Screen -> Menu -> Button -> the exact field and value to type), (b) explain what each screen and field means and warn about anything easy to get wrong, (c) add a ```mermaid``` flowchart of the whole click sequence, and (d) add a schematic 'What the screen looks like' as a ```mermaid``` flowchart with one node per field/button in top-to-bottom order (a text wireframe standing in for a screenshot).\n"
+    +"7) End with '## ⚠️ Common mistakes' (a short list), '## ✅ Prove it works' (a concrete check the learner can run/see), and a '## What this unlocks next' line: name the need THIS step now creates and how it leads into the next step/stage of the project.\n\n"
+    +"Keep mermaid syntax simple and valid: ALWAYS use 'flowchart TD' (top-down, never LR/left-right) so diagrams stay narrow and tall and fit a phone-width column; keep every node label SHORT (under about 4 words); use A[Label] --> B[Label], or 'sequenceDiagram' with 'Actor->>Service: message'. Avoid parentheses, slashes, quotes, and '...' inside node labels.";
+  var user="This is step "+(c.idx||"?")+" of "+(c.total||"?")+" in the whole project.\n"
+    +"Current stage (phase): Phase "+(c.phaseNum||"")+" — "+(c.phase||"")+(c.phaseTag?(" — stage goal: "+c.phaseTag):"")+".\n"
+    +"Module: "+(c.module||"")+(c.goal?(" (module goal: "+c.goal+")"):"")+".\n"
+    +(c.prevName?("Just before this, the learner did: \""+c.prevName+"\". Connect from it.\n"):"")
+    +(c.prevPhase?("That finished the \""+c.prevPhase+"\" stage — acknowledge the transition into this stage.\n"):"")
+    +(c.nextName?("Right after this comes: \""+c.nextName+"\""+(c.nextPhase?(" (which starts the \""+c.nextPhase+"\" stage)"):"")+" — point toward it at the end.\n"):"")
+    +"Now teach THIS step in ultra detail as the next move in building the system: \""+(c.name||"")+"\""+(c.desc?(" — "+c.desc):"")+".";
+  var res=await fetch("https://api.anthropic.com/v1/messages",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({ model:"claude-sonnet-4-6", max_tokens:8000, system:sys, messages:[{role:"user",content:user}] })
+  });
+  if(!res.ok){ var t=""; try{ t=await res.text(); }catch(_){} throw new Error("API "+res.status+(t?(": "+t.slice(0,160)):"")); }
+  var data=await res.json();
+  return (data.content||[]).filter(function(b){return b.type==="text"}).map(function(b){return b.text}).join("\n");
+}
+
+async function renderLesson(panel, md){
+  panel.innerHTML='<div class="lesson-head"><span class="lh-ic">📖</span><span class="lh-t">Full lesson</span></div>'
+    +'<div class="lesson-body"></div>'
+    +'<div class="lesson-foot"><button class="btn-learned" onclick="markLearned(this)">✓ Mark as learned</button> <button class="btn-savel" onclick="exportLesson(this)">⬇ Save this lesson</button> <button class="btn-savel prompt" onclick="copyPrompt(this.closest(&quot;.lesson&quot;).getAttribute(&quot;data-for&quot;), this)">⧉ Copy teaching prompt</button></div>';
+  var body=panel.querySelector(".lesson-body");
+  try{ body.innerHTML = window.marked ? marked.parse(md) : ("<pre><code>"+md.replace(/[&<>]/g,function(x){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[x];})+"</code></pre>"); }
+  catch(e){ body.textContent=md; }
+  if(window.mermaid){
+    body.querySelectorAll("code.language-mermaid").forEach(function(cd){
+      var div=document.createElement("div"); div.className="mermaid"; div.textContent=cd.textContent;
+      div.setAttribute("data-mmr-src", cd.textContent);
+      var pre=cd.closest("pre")||cd; pre.replaceWith(div);
+    });
+    await drawDiagrams(body);
+  }
+  panel.setAttribute("data-loaded","1");
+  if(done.has(panel.getAttribute("data-for"))){ var b=panel.querySelector(".btn-learned"); if(b){b.textContent="✓ Learned"; b.disabled=true; b.style.opacity=".7";} }
+}
+
+/* Mermaid mis-measures node widths if fonts aren't loaded yet, clipping label text.
+   Wait for the webfont, draw, then re-draw once more as a safety net. */
+async function drawDiagrams(scope){
+  try{ if(document.fonts && document.fonts.ready){ await document.fonts.ready; } }catch(e){}
+  var nodes=scope.querySelectorAll(".mermaid:not([data-processed])");
+  if(!nodes.length) return;
+  try{ await mermaid.run({nodes:nodes}); }catch(e){}
+  fixSvgSizing(scope);
+  // safety re-pass: fonts can finish mid-draw on a first load; redraw once more from the raw source
+  await new Promise(function(r){ setTimeout(r,60); });
+  scope.querySelectorAll(".mermaid[data-mmr-src]").forEach(function(el){
+    var src=el.getAttribute("data-mmr-src");
+    if(src){ el.removeAttribute("data-processed"); el.innerHTML=""; el.textContent=src; }
+  });
+  var again=scope.querySelectorAll(".mermaid:not([data-processed])");
+  if(again.length){ try{ await mermaid.run({nodes:again}); }catch(e){} }
+  fixSvgSizing(scope);
+}
+
+/* Make every diagram fit its panel: give it a correct viewBox and let it scale
+   down to the available width while preserving aspect ratio. This shows the WHOLE
+   diagram (no left/right/top/bottom clipping) without forcing sideways scrolling. */
+function fixSvgSizing(scope){
+  scope.querySelectorAll(".mermaid svg").forEach(function(svg){
+    try{
+      var vb=svg.getAttribute("viewBox");
+      if(!vb){
+        var w=parseFloat(svg.getAttribute("width")), h=parseFloat(svg.getAttribute("height"));
+        if(!(w>0&&h>0)){ try{ var bb=svg.getBBox(); w=bb.width; h=bb.height; }catch(_){}}
+        if(w>0&&h>0){ svg.setAttribute("viewBox","0 0 "+Math.ceil(w)+" "+Math.ceil(h)); }
+      }
+      svg.setAttribute("preserveAspectRatio","xMidYMid meet");
+      svg.removeAttribute("width"); svg.removeAttribute("height");
+      svg.style.setProperty("width","100%","important");
+      svg.style.setProperty("height","auto","important");
+      svg.style.setProperty("max-width","100%","important");
+      svg.style.overflow="visible";
+    }catch(e){}
+  });
+}
+
+function markLearned(btn){
+  var panel=btn.closest(".lesson"); var id=panel.getAttribute("data-for");
+  var cb=document.getElementById(id);
+  if(cb && !cb.checked){ cb.checked=true; done.add(id); persistDone(); recount(); }
+  btn.textContent="✓ Learned"; btn.disabled=true; btn.style.opacity=".7";
+}
+
+function updatePhase(p,d,t){
+  var pct=t?Math.round(d/t*100):0;
+  var pc=document.querySelector('[data-pc="'+p.id+'"]'); if(pc) pc.textContent=d+"/"+t;
+  var pm=document.querySelector('[data-pm="'+p.id+'"]'); if(pm) pm.style.width=pct+"%";
+  var nd=document.querySelector('[data-node="'+p.id+'"]'); if(nd) nd.setAttribute("data-state", d===0?"todo":(d===t?"done":"partial"));
+  var ring=document.querySelector('[data-ring="'+p.id+'"]'); if(ring) ring.style.setProperty("--p", pct);
+  var rt=document.querySelector('[data-rt="'+p.id+'"]'); if(rt) rt.textContent=pct;
+}
+function recount(){
+  var total=0, all=0;
+  PHASES.forEach(function(p){
+    var t=0, d=0;
+    p.modules.forEach(function(m,mi){(m.sub||[]).forEach(function(s,si){
+      t++; if(done.has(subId(p.id,mi,si))) d++;
+    })});
+    total+=t; all+=d;
+    updatePhase(p,d,t);
+  });
+  var pct=total?Math.round(all/total*100):0;
+  document.getElementById("fill").style.width=pct+"%";
+  document.getElementById("pct").textContent=pct+"%";
+  document.getElementById("count").textContent=all+" / "+total;
+}
+
+function animCount(el,to){
+  if(reduce||to===0){el.textContent=to; return}
+  var start=0,dur=900,t0=performance.now();
+  function step(t){var k=Math.min(1,(t-t0)/dur); el.textContent=Math.round(start+(to-start)*(k*(2-k))); if(k<1)requestAnimationFrame(step)}
+  requestAnimationFrame(step);
+}
+
+/* ---- export lessons (with diagrams) to standalone HTML files ---- */
+function esc(s){ return String(s).replace(/[&<>"]/g,function(x){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[x];}); }
+function slug(s){ return String(s).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,50)||"lesson"; }
+function download(text, filename, type){
+  try{ var b=new Blob([text],{type:type||"text/plain"}); var u=URL.createObjectURL(b); var a=document.createElement("a"); a.href=u; a.download=filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){URL.revokeObjectURL(u)},5000); return true; }catch(e){ return false; }
+}
+var EXPORT_HEAD="<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"
++"<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;600&family=JetBrains+Mono&display=swap' rel='stylesheet'>";
+var EXPORT_CSS="body{margin:0;background:#080B12;color:#E8EEF8;font-family:Inter,system-ui,sans-serif;line-height:1.72;padding:30px 18px}"
++".wrap,section{max-width:820px;margin:0 auto}h1.doc{font-family:'Space Grotesk',sans-serif;color:#fff;text-align:center;font-size:1.7rem;margin:0 auto 26px}"
++".lt{font-family:'Space Grotesk',sans-serif;color:#fff;font-size:1.45rem;border-bottom:1px solid #1F2C41;padding-bottom:10px;margin-top:0}"
++".lesson-body h1,.lesson-body h2,.lesson-body h3,.lesson-body h4{font-family:'Space Grotesk',sans-serif;color:#fff;line-height:1.25;margin:22px 0 9px}.lesson-body h4{color:#3AE1F0}"
++".lesson-body p{margin:0 0 12px}.lesson-body ul,.lesson-body ol{padding-left:22px;margin:0 0 13px}.lesson-body li{margin:5px 0}.lesson-body strong{color:#fff}.lesson-body a{color:#3AE1F0}"
++".lesson-body pre{background:#060a12;border:1px solid #1F2C41;border-radius:10px;padding:14px 16px;overflow-x:auto;margin:0 0 14px}"
++".lesson-body pre code{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:#dbe6f6;white-space:pre;line-height:1.58}"
++".lesson-body :not(pre)>code{font-family:'JetBrains Mono',monospace;font-size:.85em;color:#3AE1F0;background:rgba(58,225,240,.1);border:1px solid rgba(58,225,240,.2);padding:.05em .38em;border-radius:5px}"
++".lesson-body blockquote{border-left:3px solid #F6B860;background:rgba(246,184,96,.08);margin:0 0 14px;padding:9px 14px;border-radius:0 8px 8px 0;color:#f2e2c6}"
++".lesson-body table{border-collapse:collapse;width:100%;margin:0 0 14px;font-size:.85rem}.lesson-body th,.lesson-body td{border:1px solid #1F2C41;padding:7px 11px;text-align:left}.lesson-body th{background:#16202F}"
++".mermaid{background:#0b1322;border:1px solid #1F2C41;border-radius:10px;padding:16px;margin:6px 0 16px;text-align:center;overflow-x:auto}.mermaid svg{display:block;margin:0 auto;width:100%;height:auto}"
++"hr{border:none;border-top:1px solid #1F2C41;margin:30px auto;max-width:820px}";
+
+function exportLesson(btn){
+  var panel=btn.closest(".lesson"); var id=panel.getAttribute("data-for");
+  var name=(CTX[id]&&CTX[id].name)||"Lesson";
+  var body=panel.querySelector(".lesson-body");
+  if(!body){ toast("Open the lesson first, then save.", true); return; }
+  var doc=EXPORT_HEAD+"<title>"+esc(name)+"</title><style>"+EXPORT_CSS+"</style></head><body><div class='wrap'><h1 class='lt'>"+esc(name)+"</h1><div class='lesson-body'>"+body.innerHTML+"</div></div></body></html>";
+  if(download(doc,"lesson-"+slug(name)+".html","text/html")) toast("Saved this lesson — text + diagrams baked in. Opens in any browser, offline.");
+}
+
+async function exportHandbook(){
+  var ids=Object.keys(LESSONS);
+  if(!ids.length){ toast("No lessons saved yet — open some first, or Load a file.", true); return; }
+  toast("Building your handbook — rendering all diagrams…");
+  var holder=document.createElement("div"); holder.style.cssText="position:fixed;left:-99999px;top:0;width:820px"; document.body.appendChild(holder);
+  var order=[]; PHASES.forEach(function(p){ p.modules.forEach(function(m,mi){ (m.sub||[]).forEach(function(s,si){ var id=subId(p.id,mi,si); if(LESSONS[id]) order.push(id); }); }); });
+  var blocks=order.map(function(id){
+    var name=(CTX[id]&&CTX[id].name)||id;
+    var d=document.createElement("div"); d.className="lesson-body";
+    try{ d.innerHTML=window.marked?marked.parse(LESSONS[id]):esc(LESSONS[id]); }catch(e){ d.textContent=LESSONS[id]; }
+    d.querySelectorAll("code.language-mermaid").forEach(function(cd){ var x=document.createElement("div"); x.className="mermaid"; x.textContent=cd.textContent; x.setAttribute("data-mmr-src",cd.textContent); (cd.closest("pre")||cd).replaceWith(x); });
+    holder.appendChild(d);
+    return {name:name, el:d};
+  });
+  if(window.mermaid){ await drawDiagrams(holder); }
+  var html="<h1 class='doc'>My Microservices Handbook · "+blocks.length+" lessons</h1>";
+  blocks.forEach(function(b){ html+="<section><h1 class='lt'>"+esc(b.name)+"</h1>"+b.el.innerHTML+"</section><hr/>"; });
+  var doc=EXPORT_HEAD+"<title>Microservices Handbook</title><style>"+EXPORT_CSS+"</style></head><body>"+html+"</body></html>";
+  holder.remove();
+  if(download(doc,"microservices-handbook.html","text/html")) toast("Saved your handbook: "+blocks.length+" lesson(s) with diagrams, one offline HTML file.");
+}
+
+function render(){
+  buildContext();
+  if(window.mermaid){ try{ mermaid.initialize({startOnLoad:false, securityLevel:"loose", theme:"dark",
+    flowchart:{useMaxWidth:true, htmlLabels:true, nodeSpacing:32, rankSpacing:40},
+    sequence:{useMaxWidth:true},
+    themeVariables:{ fontFamily:"JetBrains Mono, monospace", fontSize:"13px",
+      primaryColor:"#111826", primaryTextColor:"#E8EEF8", primaryBorderColor:"#3AE1F0",
+      lineColor:"#8B7CFF", secondaryColor:"#16202F", tertiaryColor:"#0b1322",
+      clusterBkg:"#0f1521", clusterBorder:"#1F2C41", textColor:"#E8EEF8" } }); }catch(e){} }
+  var totalMods=0,totalSubs=0;
+  PHASES.forEach(function(p){totalMods+=p.modules.length; p.modules.forEach(function(m){totalSubs+=(m.sub?m.sub.length:0)})});
+  document.getElementById("track").innerHTML=PHASES.map(phaseHTML).join("");
+  document.getElementById("map").innerHTML=PHASES.map(function(p){
+    var t=p.modules.reduce(function(a,m){return a+(m.sub?m.sub.length:0)},0);
+    return '<a class="mapcard" href="#'+p.id+'" data-t="'+p.id+'"><span class="ring" data-ring="'+p.id+'" style="--p:0"><span data-rt="'+p.id+'">0</span></span>'
+      +'<span class="mt"><b>'+p.emoji+' '+(p.chip||p.title)+'</b><em>P'+p.n+' · '+t+' topics</em></span></a>';
+  }).join("");
+  attach();
+  loadDone();
+  hydrateLessons().then(restoreSync);
+  // stats counters
+  animCount(document.querySelector('[data-count="15"]'),15);
+  animCount(document.getElementById("stat-mod"),totalMods);
+  animCount(document.getElementById("stat-sub"),totalSubs);
+  recount();
+  // reveal on scroll
+  if("IntersectionObserver" in window && !reduce){
+    var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in"); io.unobserve(e.target)}})},{threshold:.08});
+    document.querySelectorAll(".reveal").forEach(function(el){io.observe(el)});
+  } else { document.querySelectorAll(".reveal").forEach(function(el){el.classList.add("in")}); }
+}
+
+/* ============ curriculum data (appended below) ============ */
+var PHASES = [];
+
+PHASES.push({
+  n:"00", emoji:"🧱", id:"foundations", chip:"Foundations", weeks:"~3–5 weeks", open:true,
+  title:"Foundations — the ground you build on",
+  tag:"read and write core Java, save work with Git, understand the web and databases, and drive a real dev environment.",
+  prereq:null,
+  modules:[
+    {m:"Java essentials", goal:"read any beginner Java class and write your own with confidence.",
+     build:"Write a small console app: a bank-account class with deposit/withdraw, stored in a <code>List</code>, looping over transactions and handling errors.",
+     tip:"Learn modern Java (records, streams, <code>var</code>). Skip threads/JVM internals for now.",
+     sub:[
+      {s:"Install the JDK (Java 21 LTS)", d:"the toolkit that compiles &amp; runs Java"},
+      {s:"JDK vs JRE vs JVM", d:"what each piece actually does"},
+      {s:"Variables &amp; primitive types", d:"<code>int</code>, <code>double</code>, <code>boolean</code>, <code>char</code>"},
+      {s:"Operators &amp; expressions", d:"math, comparison, logical"},
+      {s:"Strings &amp; text methods", d:"concat, length, substring, format"},
+      {s:"Control flow", d:"<code>if</code>/<code>else</code>, <code>switch</code>, ternary"},
+      {s:"Loops", d:"<code>for</code>, <code>while</code>, for-each, break/continue"},
+      {s:"Arrays", d:"fixed lists of values"},
+      {s:"Methods", d:"parameters, return types, overloading"},
+      {s:"Classes &amp; objects", d:"the heart of OOP"},
+      {s:"Constructors", d:"how objects get created"},
+      {s:"Encapsulation", d:"private fields + getters/setters"},
+      {s:"Inheritance", d:"<code>extends</code>, reusing behavior"},
+      {s:"Polymorphism", d:"overriding, one interface many forms"},
+      {s:"Abstraction", d:"abstract classes vs interfaces"},
+      {s:"Interfaces", d:"contracts your classes implement"},
+      {s:"Enums", d:"fixed sets of constants"},
+      {s:"Records", d:"concise immutable data classes"},
+      {s:"Access modifiers", d:"<code>public</code>/<code>private</code>/<code>protected</code>"},
+      {s:"static vs instance", d:"class-level vs object-level"},
+      {s:"Packages &amp; imports", d:"organizing code"},
+      {s:"Exceptions", d:"<code>try</code>/<code>catch</code>/<code>finally</code>, throw"},
+      {s:"Checked vs unchecked exceptions", d:"and custom exception classes"},
+      {s:"Collections: List / ArrayList", d:"ordered, resizable lists"},
+      {s:"Collections: Set / HashSet", d:"unique items"},
+      {s:"Collections: Map / HashMap", d:"key-value pairs"},
+      {s:"Generics", d:"type-safe containers <code>&lt;T&gt;</code>"},
+      {s:"Optional", d:"handling maybe-null values safely"},
+      {s:"Lambdas &amp; functional interfaces", d:"passing behavior as data"},
+      {s:"Streams API", d:"<code>map</code>, <code>filter</code>, <code>collect</code>"},
+      {s:"equals() &amp; hashCode()", d:"why they matter for collections"}
+     ]},
+
+    {m:"Build tool — Maven", goal:"understand and edit any Spring project's build file.",
+     build:"Open a Spring project's <code>pom.xml</code>, add one dependency, and run <code>mvn clean package</code> to produce a jar.",
+     sub:[
+      {s:"What a build tool does", d:"downloads libs, compiles, tests, packages"},
+      {s:"pom.xml structure", d:"the project descriptor"},
+      {s:"Dependency coordinates", d:"groupId, artifactId, version"},
+      {s:"Maven Central &amp; repositories", d:"where libraries come from"},
+      {s:"Dependency scopes", d:"<code>compile</code>, <code>test</code>, <code>provided</code>"},
+      {s:"Build lifecycle phases", d:"validate → compile → test → package → install"},
+      {s:"Plugins", d:"extra build steps"},
+      {s:"Running Maven commands", d:"<code>mvn clean</code>, <code>test</code>, <code>package</code>"},
+      {s:"Gradle (awareness)", d:"the other build tool; same ideas"}
+     ]},
+
+    {m:"Version control — Git &amp; GitHub", goal:"save, branch, and share code like every dev does.",
+     build:"Turn a practice project into a repo, push to GitHub, make a branch, change something, open a PR, and merge it.",
+     watch:"Add a <code>.gitignore</code> so you never commit <code>target/</code> or secrets — a common, costly mistake.",
+     sub:[
+      {s:"What version control is", d:"snapshots &amp; history of your code"},
+      {s:"Install &amp; first-time config", d:"set <code>user.name</code> and <code>user.email</code>"},
+      {s:"git init", d:"start tracking a folder"},
+      {s:"The staging area &amp; git add", d:"choose what to commit"},
+      {s:"git commit", d:"save a snapshot with a message"},
+      {s:"git status &amp; git log", d:"see state and history"},
+      {s:"git diff", d:"see what changed"},
+      {s:".gitignore", d:"exclude files from tracking"},
+      {s:"Branches", d:"work without breaking main"},
+      {s:"git switch / checkout", d:"move between branches"},
+      {s:"Merging", d:"combine branches"},
+      {s:"Resolving merge conflicts", d:"the scary-once, easy-after skill"},
+      {s:"Remotes, clone, push, pull, fetch", d:"syncing with GitHub"},
+      {s:"Create a GitHub repo + README", d:"your project's home &amp; front page"},
+      {s:"Pull requests", d:"propose &amp; review changes"},
+      {s:"Undoing changes", d:"<code>restore</code>, <code>reset</code>, <code>revert</code>"}
+     ]},
+
+    {m:"How the web works — HTTP &amp; REST", goal:"speak the language every microservice uses.",
+     build:"Use Postman to call a free public API with GET and POST; inspect the request, JSON body, headers, and status code.",
+     tip:"Memorize the meaning of 200, 201, 400, 401, 403, 404, 500 — you'll read them forever.",
+     sub:[
+      {s:"Client–server model", d:"who asks, who answers"},
+      {s:"Request &amp; response", d:"the basic exchange"},
+      {s:"Anatomy of a URL", d:"scheme, host, path, query"},
+      {s:"HTTP methods", d:"GET, POST, PUT, PATCH, DELETE"},
+      {s:"Status codes", d:"2xx ok, 4xx you erred, 5xx server erred"},
+      {s:"Headers", d:"metadata on requests/responses"},
+      {s:"Request &amp; response bodies", d:"where the data rides"},
+      {s:"JSON", d:"the data format you'll live in"},
+      {s:"Content-Type", d:"telling the server what you sent"},
+      {s:"Statelessness", d:"each request stands alone"},
+      {s:"REST principles", d:"resources, verbs, clean URLs"},
+      {s:"Path vs query parameters", d:"<code>/users/5</code> vs <code>?page=2</code>"},
+      {s:"Idempotency (intro)", d:"safe-to-repeat requests"},
+      {s:"HTTPS &amp; TLS (basics)", d:"why the padlock matters"},
+      {s:"Postman / HTTP client", d:"your API testing tool"}
+     ]},
+
+    {m:"Databases &amp; SQL", goal:"design simple tables and query them by hand.",
+     build:"In MySQL or the H2 console, create <code>customer</code> and <code>order</code> tables linked by a foreign key; insert rows and run a JOIN.",
+     sub:[
+      {s:"What a relational database is", d:"data in linked tables"},
+      {s:"Tables, rows, columns", d:"the spreadsheet-like structure"},
+      {s:"Data types", d:"INT, VARCHAR, DATE, BOOLEAN"},
+      {s:"Primary keys", d:"unique row identity"},
+      {s:"Foreign keys", d:"links between tables"},
+      {s:"Relationships", d:"one-to-one, one-to-many, many-to-many"},
+      {s:"SELECT", d:"read data"},
+      {s:"WHERE", d:"filter rows"},
+      {s:"INSERT / UPDATE / DELETE", d:"change data"},
+      {s:"ORDER BY &amp; LIMIT", d:"sort and cap results"},
+      {s:"JOIN", d:"combine related tables"},
+      {s:"GROUP BY &amp; aggregates", d:"COUNT, SUM, AVG"},
+      {s:"Indexes (intro)", d:"why some queries are fast"},
+      {s:"Normalization (intro)", d:"avoiding duplicated data"},
+      {s:"Transactions &amp; ACID (intro)", d:"all-or-nothing changes"},
+      {s:"SQL vs NoSQL (awareness)", d:"tables vs flexible documents"}
+     ]},
+
+    {m:"Your workshop — IDE &amp; command line", goal:"move fast in the tools you'll use daily.",
+     build:"Open a Java project in IntelliJ, run it, set a breakpoint, step through in the debugger; then do the same run from the terminal.",
+     sub:[
+      {s:"Install IntelliJ IDEA (Community)", d:"the free, standard Java IDE"},
+      {s:"Project navigation", d:"find files &amp; classes fast"},
+      {s:"Run &amp; debug", d:"the green arrow &amp; the bug"},
+      {s:"Breakpoints &amp; stepping", d:"pause and inspect live code"},
+      {s:"Refactor &amp; shortcuts", d:"rename, extract, auto-import"},
+      {s:"Terminal basics", d:"<code>cd</code>, <code>ls</code>, <code>mkdir</code>, <code>cat</code>"},
+      {s:"Environment variables &amp; PATH", d:"how tools are found"},
+      {s:"Package managers", d:"brew / choco / apt to install tools"},
+      {s:"Reading stack traces", d:"finding the real error line"}
+     ]}
+  ]
+});
+
+PHASES.push({
+  n:"01", emoji:"⚙️", id:"springboot", chip:"Build our app", weeks:"~5–7 weeks",
+  title:"Build our app (Spring Boot)",
+  tag:"we turn an empty folder into a real, running API for our app — it stores data, validates input, handles errors, documents itself, and is tested.",
+  prereq:"Phase 00 — we lean on Java, Maven, SQL and HTTP/REST here. If any feel shaky, go back first.",
+  modules:[
+    {m:"Start our app", goal:"get our project generated, running, and configured.",
+     build:"Generate our project with Web, JPA, H2, Validation &amp; Lombok, run it, and confirm it boots on localhost.",
+     watch:"In IntelliJ, install the Lombok plugin AND enable annotation processing, or correct code shows fake red errors.",
+     sub:[
+      {s:"Generate our project (Spring Initializr)", d:"pick our starter dependencies"},
+      {s:"Run our app the first time", d:"boot it from IDE &amp; terminal"},
+      {s:"Tour our project's folders", d:"where code, config &amp; resources live"},
+      {s:"Set our app's config (application.yml)", d:"properties vs YAML"},
+      {s:"Turn on auto-restart (DevTools)", d:"our app reloads as we code"},
+      {s:"Cut boilerplate with Lombok", d:"@Data, @Getter, @Builder"}
+     ]},
+    {m:"Let Spring assemble our app (IoC &amp; DI)", goal:"understand how Spring builds and connects the pieces of our app, so it stops feeling like magic.",
+     build:"Add a GreetingService to our app and inject it into a controller via the constructor — never write <code>new</code>.",
+     tip:"Prefer constructor injection over field @Autowired — it's the modern standard and makes our tests easy.",
+     sub:[
+      {s:"Let Spring create our objects (IoC)", d:"the framework builds &amp; owns them"},
+      {s:"Have dependencies handed to us (DI)", d:"ask for them, don't 'new' them"},
+      {s:"Register our classes as beans", d:"@Component / @Service / @Repository"},
+      {s:"Define a bean manually", d:"@Configuration &amp; @Bean"},
+      {s:"Inject a service via the constructor", d:"@Autowired &amp; constructor injection"},
+      {s:"See how Spring finds our beans", d:"component scanning"},
+      {s:"Understand what @SpringBootApplication does", d:"auto-config, starters, embedded server"}
+     ]},
+    {m:"Add our first API endpoints", goal:"expose endpoints in our app that take and return JSON correctly.",
+     build:"Add <code>GET /api/items/{id}</code> and <code>POST /api/items</code> to our app and test both in Postman.",
+     sub:[
+      {s:"Create a controller for our app", d:"@RestController + a base path"},
+      {s:"Add GET / POST / PUT / DELETE endpoints", d:"one mapping per HTTP verb"},
+      {s:"Read values from the URL", d:"@PathVariable &amp; @RequestParam"},
+      {s:"Accept a JSON body", d:"@RequestBody into a Java object"},
+      {s:"Return the right status codes", d:"ResponseEntity — 201 on create, 404 missing"},
+      {s:"Control our JSON output", d:"Jackson, @JsonProperty / @JsonIgnore"}
+     ]},
+    {m:"Give our app a database (JPA)", goal:"let our app store and read data without hand-writing SQL.",
+     build:"Add an <code>Item</code> entity + repository to our app, save &amp; fetch rows, and add a <code>findByName</code> finder.",
+     watch:"Watch for the N+1 query problem — lazy relationships firing one query per row. Learn to spot it early.",
+     sub:[
+      {s:"Map a class to a table", d:"@Entity — our data becomes rows"},
+      {s:"Add a primary key", d:"@Id &amp; @GeneratedValue"},
+      {s:"Get free CRUD", d:"JpaRepository: save/find/delete, no SQL"},
+      {s:"Query by method name", d:"findByNameAndStatus(...)"},
+      {s:"Write a custom query", d:"@Query (JPQL) when needed"},
+      {s:"Link our tables", d:"@OneToMany / @ManyToOne / @ManyToMany"},
+      {s:"Control when related data loads", d:"lazy vs eager, cascade"},
+      {s:"Page &amp; sort our results", d:"Pageable, Page&lt;T&gt;"},
+      {s:"Make DB changes all-or-nothing", d:"@Transactional"},
+      {s:"Inspect our data live", d:"the H2 console"}
+     ]},
+    {m:"Shape our app's API with DTOs", goal:"keep our app's API shape separate from its database shape.",
+     build:"Add request &amp; response DTOs to our app and map to/from the entity — return DTOs, never entities.",
+     tip:"MapStruct generates the mapping code at compile time — less boilerplate, fewer bugs.",
+     sub:[
+      {s:"Add request &amp; response DTOs", d:"plain objects for our API"},
+      {s:"Stop exposing our entities", d:"why DTOs protect us"},
+      {s:"Map entity to/from DTO", d:"a mapper class or MapStruct"}
+     ]},
+    {m:"Build full CRUD for our app (clean layers)", goal:"wire create/read/update/delete through tidy layers in our app.",
+     build:"Implement all four operations in our app across controller → service → repository layers.",
+     tip:"Never put DB calls in a controller. Controller = HTTP, Service = logic, Repository = data.",
+     sub:[
+      {s:"Create &amp; read our records", d:"POST returns 201, GET fetches one/many"},
+      {s:"Update &amp; delete our records", d:"PUT/PATCH and DELETE"},
+      {s:"Add a service layer", d:"our business logic lives here"},
+      {s:"Organize our app in layers", d:"controller / service / repository"},
+      {s:"Name our API RESTfully", d:"nouns, plurals, no verbs in URLs"},
+      {s:"Version our API", d:"/api/v1/... for safe change"}
+     ]},
+    {m:"Validate what users send our app", goal:"reject bad data before it reaches our database.",
+     build:"Add rules to our DTO, mark the body @Valid, send bad input, and return a clean 400 from our app.",
+     sub:[
+      {s:"Add validation rules", d:"@NotNull / @NotBlank / @Size / @Email"},
+      {s:"Turn validation on", d:"@Valid in the controller"},
+      {s:"Write a custom rule", d:"our own validator"},
+      {s:"Return tidy validation errors", d:"clean 400 JSON"}
+     ]},
+    {m:"Make our app fail gracefully", goal:"return consistent, useful errors from our app instead of stack traces.",
+     build:"Add a ResourceNotFoundException to our app and handle it globally to return a clean 404 body.",
+     sub:[
+      {s:"Handle errors in one place", d:"@RestControllerAdvice"},
+      {s:"Map an exception to a response", d:"@ExceptionHandler"},
+      {s:"Add our own exception types", d:"meaningful errors"},
+      {s:"Return a consistent error body", d:"same shape every time (ProblemDetail)"}
+     ]},
+    {m:"Auto-track changes in our app", goal:"record who changed what and when in our app, automatically.",
+     build:"Enable auditing so createdAt/updatedAt fill themselves in on every save in our app.",
+     sub:[
+      {s:"Turn on JPA auditing", d:"@EnableJpaAuditing"},
+      {s:"Auto-fill timestamps", d:"@CreatedDate / @LastModifiedDate"},
+      {s:"Track who did it", d:"created-by / updated-by"},
+      {s:"Soft-delete instead of erasing", d:"mark rows as deleted"}
+     ]},
+    {m:"Document our app's API (Swagger)", goal:"give anyone using our app a live, always-current manual.",
+     build:"Add springdoc to our app, open Swagger UI, and annotate endpoints with summaries &amp; examples.",
+     sub:[
+      {s:"Add auto docs (springdoc)", d:"OpenAPI for our app"},
+      {s:"Open Swagger UI", d:"an interactive docs page"},
+      {s:"Describe our endpoints", d:"@Operation, @Tag, @ApiResponse"},
+      {s:"Add example data", d:"@Schema with samples"}
+     ]},
+    {m:"Test our app", goal:"prove our app works and keep it working as we change it.",
+     build:"Write a service unit test (Mockito), a controller test (MockMvc), and one integration test (@SpringBootTest) for our app.",
+     tip:"Testcontainers spins up a real MySQL in Docker for tests — realistic and repeatable.",
+     sub:[
+      {s:"Write our first test", d:"JUnit 5 — @Test &amp; assertions"},
+      {s:"Unit-test a service with mocks", d:"Mockito"},
+      {s:"Test our controllers", d:"@WebMvcTest + MockMvc"},
+      {s:"Test our repository", d:"@DataJpaTest"},
+      {s:"Run a full integration test", d:"@SpringBootTest"},
+      {s:"Test against a real database", d:"Testcontainers"}
+     ]},
+    {m:"Grow our app into more services", goal:"repeat the whole build until it's second nature — that's the jump to microservices.",
+     build:"Build two more small services the same way (e.g. an Orders service and a Users service) without leaning on the tutorial.",
+     tip:"Now we have services that each work alone. Everything ahead is making them work together — that's 'microservices'.",
+     sub:[
+      {s:"Build a second service end-to-end", d:"entity → DTO → CRUD → docs → tests"},
+      {s:"Build a third, faster", d:"prove the pattern is ours now"},
+      {s:"Keep our structure consistent", d:"same layout across services"}
+     ]}
+  ]
+});
+
+PHASES.push({
+  n:"02", emoji:"🧭", id:"design", chip:"Design thinking", weeks:"~1 week",
+  title:"Microservices design — how to split a system",
+  tag:"decide when to use microservices, where to draw service boundaries, and how to migrate a monolith safely.",
+  prereq:"Phase 01 — you should have built a real service so this isn't abstract.",
+  modules:[
+    {m:"Monolith vs microservices", goal:"argue both sides and know which fits a given situation.",
+     build:"Write a one-page pros/cons of splitting a made-up app into services; argue both directions.",
+     tip:"For small projects a monolith is often right. Microservices earn their cost at team &amp; traffic scale. Say this in interviews.",
+     sub:[
+      {s:"What a monolith is", d:"one big deployable app"},
+      {s:"What microservices are", d:"many small independent services"},
+      {s:"Benefits of microservices", d:"independent deploy, scale, teams"},
+      {s:"Costs of microservices", d:"network, ops, complexity"},
+      {s:"The distributed monolith anti-pattern", d:"worst of both worlds"},
+      {s:"Conway's Law", d:"systems mirror team structure"},
+      {s:"When NOT to use microservices", d:"mature judgment"}
+     ]},
+    {m:"Finding the right boundaries", goal:"split by business capability, not technical layer.",
+     build:"Sketch a bank or shop as services; for each name the one thing it owns and the data only it touches.",
+     watch:"If two services always change together and call each other constantly, they're probably one service.",
+     sub:[
+      {s:"Domain-Driven Design (intro)", d:"model around the business"},
+      {s:"Bounded contexts", d:"each context = a service"},
+      {s:"Ubiquitous language", d:"shared, precise vocabulary"},
+      {s:"Aggregates (intro)", d:"consistency boundaries"},
+      {s:"Right-sizing services", d:"not too big, not too tiny"},
+      {s:"One database per service", d:"no shared tables"},
+      {s:"Coupling vs cohesion", d:"the core design tension"},
+      {s:"Chatty-service smell", d:"a boundary warning sign"}
+     ]},
+    {m:"Communication styles", goal:"choose sync vs async and know the trade-offs.",
+     sub:[
+      {s:"Synchronous (REST) calls", d:"ask and wait for an answer"},
+      {s:"Asynchronous (messaging)", d:"fire an event, move on"},
+      {s:"Orchestration vs choreography", d:"central conductor vs reacting parts"},
+      {s:"Data consistency across services", d:"eventual consistency (intro)"}
+     ]},
+    {m:"Migrating a legacy system", goal:"move to microservices without a risky big-bang rewrite.",
+     build:"Describe step-by-step how you'd extract just 'user profile' from a monolith without breaking users.",
+     sub:[
+      {s:"The Strangler Fig pattern", d:"replace piece by piece"},
+      {s:"Anti-corruption layer", d:"shield new code from old models"},
+      {s:"Incremental migration", d:"one feature at a time"}
+     ]}
+  ]
+});
+
+PHASES.push({
+  n:"03", emoji:"🐳", id:"docker", chip:"Containerize our app", weeks:"~2 weeks",
+  title:"Containerize our app (Docker)",
+  tag:"we package our services into containers so they run identically anywhere, and bring our whole app up locally with one command.",
+  prereq:"Phase 01 — we need our services building into runnable jars before we can containerize them.",
+  modules:[
+    {m:"Get Docker ready &amp; run our first container", goal:"install Docker and prove it works before touching our app.",
+     build:"Install Docker Desktop, run <code>docker run hello-world</code>, then pull a database image we'll use for our app.",
+     sub:[
+      {s:"Understand containers vs VMs", d:"why they're tiny &amp; fast"},
+      {s:"Image vs container", d:"the recipe vs the running meal"},
+      {s:"Install Docker Desktop", d:"the engine + tools"},
+      {s:"Run our first container", d:"docker run hello-world"},
+      {s:"Pull an image for our app", d:"e.g. a database from Docker Hub"}
+     ]},
+    {m:"Containerize our app (write its Dockerfile)", goal:"turn one of our services into a small, secure image.",
+     build:"Write a multi-stage Dockerfile for our service (build with Maven, run on a slim JRE) and check the image size.",
+     tip:"Put slow-changing steps (dependency download) before your code so rebuilds are fast (layer caching).",
+     watch:"Run our app as a non-root user in the image — a basic security must.",
+     sub:[
+      {s:"Write a Dockerfile for our service", d:"FROM, WORKDIR, COPY, RUN, ENTRYPOINT"},
+      {s:"Make the image small (multi-stage)", d:"build in one stage, ship a slim one"},
+      {s:"Speed up rebuilds", d:"order layers for caching; add .dockerignore"},
+      {s:"Pick a safe base image", d:"slim / distroless, run as non-root"},
+      {s:"Build &amp; tag our image", d:"docker build -t our-app:1.0"}
+     ]},
+    {m:"Build our image without a Dockerfile (optional)", goal:"know the quicker ways to image a Spring Boot app.",
+     build:"Build our same service with Buildpacks and with Jib; compare size &amp; effort to our Dockerfile.",
+     sub:[
+      {s:"Build with Spring Boot Buildpacks", d:"one command, sensible image"},
+      {s:"Build with Jib", d:"optimized image, no Docker daemon"},
+      {s:"Choose Dockerfile vs Buildpacks vs Jib", d:"per situation"}
+     ]},
+    {m:"Run &amp; operate our app in a container", goal:"start, inspect, debug and persist data for our containerized app.",
+     build:"Run our image with a mapped port &amp; env vars, tail its logs, shell in to debug, then stop &amp; remove it.",
+     watch:"Can't reach our app in the browser? You almost certainly forgot <code>-p host:container</code>.",
+     sub:[
+      {s:"Run our app with the right flags", d:"-p, -d, -e, --name"},
+      {s:"See &amp; read our container", d:"docker ps &amp; docker logs"},
+      {s:"Shell into our container to debug", d:"docker exec -it ... sh"},
+      {s:"Persist our app's data", d:"volumes that outlive the container"},
+      {s:"Keep our app healthy", d:"restart policies &amp; health checks"},
+      {s:"Cap our app's resources", d:"limit CPU &amp; memory"}
+     ]},
+    {m:"Connect our app's containers (networking)", goal:"let our service reach its database container by name.",
+     build:"On a Docker network, connect our service to its database using the DB's service name as the host.",
+     watch:"Inside a container, <code>localhost</code> is the container itself — use the service name to reach other containers.",
+     sub:[
+      {s:"Understand container networking", d:"bridge networks &amp; DNS by name"},
+      {s:"Reach our DB by service name", d:"not localhost"},
+      {s:"Publish our app's ports", d:"expose to the host"}
+     ]},
+    {m:"Bring our whole app up with one command (Compose)", goal:"run all of our app's pieces together locally in one step.",
+     build:"Write a <code>docker-compose.yml</code> that starts our service + its database together; <code>up</code> then <code>down</code>.",
+     tip:"Compose is for local/dev; production orchestration is Kubernetes (Phase 11) — but the ideas carry over.",
+     sub:[
+      {s:"Describe our stack (compose file)", d:"services, images, ports"},
+      {s:"Add config &amp; env per service", d:"environment / env_file"},
+      {s:"Set start order &amp; wiring", d:"depends_on, volumes, networks"},
+      {s:"Bring our app up &amp; down", d:"compose up / down / logs"},
+      {s:"Run multiple copies of a service", d:"scale locally"}
+     ]},
+    {m:"Publish our app's image (registry)", goal:"push our image so servers can pull it later.",
+     build:"Tag and push our image to Docker Hub, then pull it back to prove the round trip.",
+     sub:[
+      {s:"Push our image to a registry", d:"docker tag / login / push / pull"},
+      {s:"Use versioned tags", d:"never deploy 'latest' to prod"},
+      {s:"Know the cloud registries", d:"ECR / GHCR (we'll use ECR on AWS)"},
+      {s:"Scan our image for vulnerabilities", d:"a first security check"}
+     ]}
+  ]
+});
+
+PHASES.push({
+  n:"04", emoji:"☁️", id:"config", chip:"Configuration", weeks:"~2–3 weeks",
+  title:"Cloud-native &amp; configuration — settings done right",
+  tag:"follow the rules cloud apps live by, keep every setting outside your code, protect secrets, and refresh config without restarts.",
+  prereq:"Phases 01 &amp; 03 — be comfortable running services in Docker &amp; Compose.",
+  modules:[
+    {m:"Cloud-native principles &amp; 12/15-factor", goal:"internalize the habits that make services deployable and replaceable.",
+     build:"Score your service against the 15 factors and fix the easy misses (config out of code, stateless).",
+     tip:"Deeply understanding 'config lives outside the code' and 'processes are stateless &amp; disposable' already puts you ahead.",
+     sub:[
+      {s:"What cloud-native means", d:"built to scale &amp; tolerate failure"},
+      {s:"Cloud-native vs traditional apps", d:"the key differences"},
+      {s:"12-factor → 15-factor", d:"a checklist of good habits"},
+      {s:"Config in the environment", d:"never hard-coded"},
+      {s:"Stateless, disposable processes", d:"any copy can die &amp; restart"},
+      {s:"Backing services as attachable", d:"DBs/queues as swappable resources"}
+     ]},
+    {m:"Reading configuration in Spring", goal:"pull settings in the clean, type-safe way.",
+     build:"Read one value with <code>@Value</code>, then convert a group of related settings into a <code>@ConfigurationProperties</code> class.",
+     sub:[
+      {s:"@Value", d:"inject a single setting"},
+      {s:"Environment interface", d:"fetch values in code"},
+      {s:"@ConfigurationProperties", d:"map a group to a typed class"},
+      {s:"Relaxed binding", d:"<code>MY_VAR</code> ↔ <code>my.var</code>"},
+      {s:"Validating config", d:"fail fast on bad settings"}
+     ]},
+    {m:"Profiles — one app, many environments", goal:"make the same jar behave right in dev, qa, and prod.",
+     build:"Create <code>dev</code> and <code>prod</code> profiles with different settings and start under each.",
+     sub:[
+      {s:"What a profile is", d:"a named set of settings"},
+      {s:"application-{profile}.yml", d:"per-environment files"},
+      {s:"Activating a profile", d:"<code>spring.profiles.active</code>"},
+      {s:"Profile-specific beans", d:"<code>@Profile</code> on beans"},
+      {s:"Default profile", d:"the fallback"}
+     ]},
+    {m:"Externalizing configuration", goal:"override any setting from outside the jar at launch.",
+     build:"Launch your service and override the port &amp; profile three ways: arg, JVM prop, env var.",
+     watch:"With many services, externalizing via Spring alone gets messy — which the Config Server solves next.",
+     sub:[
+      {s:"Command-line arguments", d:"<code>--server.port=9090</code>"},
+      {s:"JVM system properties", d:"<code>-Dserver.port=9090</code>"},
+      {s:"Environment variables", d:"<code>SERVER_PORT=9090</code>"},
+      {s:"Property precedence order", d:"who wins when they clash"}
+     ]},
+    {m:"Central config — Spring Cloud Config Server", goal:"hold every service's settings in one Git-backed place.",
+     build:"Build a Config Server backed by a Git repo, and update services to fetch config from it on startup.",
+     sub:[
+      {s:"Why central configuration", d:"one source of truth"},
+      {s:"Building the Config Server", d:"a small Spring Boot app"},
+      {s:"Git backend", d:"version-controlled settings"},
+      {s:"File-system / classpath backends", d:"other sources"},
+      {s:"Clients fetching config", d:"services read from the server"},
+      {s:"Config-first startup", d:"get settings before anything else"}
+     ]},
+    {m:"Protecting secrets", goal:"never store passwords or keys in plain text.",
+     build:"Encrypt a database password to a <code>{cipher}</code> value and confirm services still get the decrypted value.",
+     tip:"In AWS you'll use Secrets Manager / Parameter Store too (Phase 13). Same idea, cloud-managed.",
+     sub:[
+      {s:"Encryption &amp; decryption", d:"secrets stay unreadable at rest"},
+      {s:"The {cipher} prefix", d:"marking encrypted values"},
+      {s:"Symmetric vs asymmetric keys", d:"shared key vs key pair"},
+      {s:"HashiCorp Vault (awareness)", d:"dedicated secret store"}
+     ]},
+    {m:"Refreshing config at runtime", goal:"change behavior with zero downtime.",
+     build:"Change a value in Git, hit <code>/actuator/refresh</code>, and watch it take effect without a restart.",
+     sub:[
+      {s:"Actuator /refresh endpoint", d:"reload config for one service"},
+      {s:"@RefreshScope", d:"beans that pick up new values"},
+      {s:"Spring Cloud Bus", d:"refresh ALL services at once"},
+      {s:"Config monitor / webhook", d:"auto-refresh on Git push"}
+     ]},
+    {m:"Health probes", goal:"let Docker/Kubernetes restart and route around your app correctly.",
+     build:"Enable liveness &amp; readiness endpoints and watch readiness stay 'down' until dependencies are up.",
+     sub:[
+      {s:"Spring Boot Actuator", d:"health &amp; management endpoints"},
+      {s:"Liveness probe", d:"am I alive or should I restart?"},
+      {s:"Readiness probe", d:"am I ready for traffic yet?"},
+      {s:"Health groups", d:"grouping health checks"}
+     ]},
+    {m:"Real database + migrations", goal:"move to a persistent DB and manage schema changes properly.",
+     build:"Run MySQL via Compose, switch services from H2 to MySQL, and manage the schema with Flyway.",
+     tip:"Flyway/Liquibase version your database schema like Git versions code — essential for real teams.",
+     sub:[
+      {s:"H2 → MySQL", d:"in-memory to persistent"},
+      {s:"Per-service databases in Compose", d:"one DB container each"},
+      {s:"Database migrations (Flyway/Liquibase)", d:"versioned schema changes"},
+      {s:"Migrations in CI/CD", d:"apply schema safely on deploy"}
+     ]}
+  ]
+});
+
+PHASES.push({
+  n:"05", emoji:"🧵", id:"discovery", chip:"Service discovery", weeks:"~1–2 weeks",
+  title:"Service discovery — how services find each other",
+  tag:"let services register and locate one another automatically, then call each other cleanly by name.",
+  prereq:"Phases 03 &amp; 04 — multiple services running in containers with central config.",
+  modules:[
+    {m:"The problem &amp; the approaches", goal:"understand why hard-coded addresses fail in the cloud.",
+     build:"Write down what breaks when Service A hard-codes B's address and B restarts on a new port.",
+     sub:[
+      {s:"Dynamic addresses in the cloud", d:"services move &amp; scale"},
+      {s:"Why not fixed IPs/hostnames", d:"they change constantly"},
+      {s:"Why not one classic load balancer", d:"bottleneck, stale targets"},
+      {s:"Client-side vs server-side discovery", d:"who does the lookup"}
+     ]},
+    {m:"The registry — Eureka server", goal:"stand up a live 'phone book' for your services.",
+     build:"Build a Eureka server and open its dashboard in the browser.",
+     sub:[
+      {s:"What a service registry is", d:"a directory of live services"},
+      {s:"Building a Eureka server", d:"one annotation + config"},
+      {s:"The Eureka dashboard", d:"see who's registered"}
+     ]},
+    {m:"Registering your services", goal:"make services self-register and stay accurate.",
+     build:"Turn services into Eureka clients; start two copies of one and watch both register, then kill one.",
+     tip:"Self-preservation stops Eureka from wrongly evicting healthy services during a network blip.",
+     sub:[
+      {s:"Eureka client setup", d:"add dependency + config"},
+      {s:"Registration on startup", d:"announce yourself"},
+      {s:"Heartbeats", d:"prove you're still alive"},
+      {s:"De-registration on shutdown", d:"leave the directory cleanly"},
+      {s:"Self-preservation mode", d:"survive network hiccups"},
+      {s:"Instance metadata", d:"extra info per instance"}
+     ]},
+    {m:"Calling another service — Feign", goal:"turn inter-service HTTP into clean method calls with load balancing.",
+     build:"Create a Feign client so one service fetches data from another by name; run two copies and watch load spread.",
+     sub:[
+      {s:"OpenFeign", d:"declarative HTTP clients"},
+      {s:"@FeignClient by service name", d:"call by name, not address"},
+      {s:"Client-side load balancing", d:"spread calls across copies"},
+      {s:"Spring Cloud LoadBalancer", d:"the balancing engine"},
+      {s:"Feign error handling", d:"decode &amp; handle failures"},
+      {s:"Consul (awareness)", d:"an alternative to Eureka"}
+     ]}
+  ]
+});
+
+PHASES.push({
+  n:"06", emoji:"🚪", id:"gateway", chip:"API Gateway", weeks:"~1–2 weeks",
+  title:"API Gateway — the single front door",
+  tag:"put one smart entry point in front of all services for routing plus shared concerns like logging and tracing.",
+  prereq:"Phase 05 — service discovery must work, since the gateway routes to services by name.",
+  modules:[
+    {m:"Why an edge server / gateway", goal:"see what belongs at the edge vs inside services.",
+     build:"Sketch requests hitting one gateway that forwards to your services behind it.",
+     sub:[
+      {s:"Single entry point", d:"one stable address for clients"},
+      {s:"Hiding internal layout", d:"clients don't know your services"},
+      {s:"Cross-cutting in one place", d:"auth, logging, limits once"},
+      {s:"Edge server concept", d:"the boundary of your system"}
+     ]},
+    {m:"Spring Cloud Gateway basics", goal:"route requests to the right service, by name.",
+     build:"Build a gateway, connect it to Eureka, confirm auto-routing, then add one custom route.",
+     tip:"Spend a few minutes on the predicate → filter → route flow; it demystifies everything here.",
+     sub:[
+      {s:"Reactive gateway model", d:"non-blocking, high throughput"},
+      {s:"Routes", d:"where requests go"},
+      {s:"Predicates", d:"conditions like path/host/header"},
+      {s:"Filters", d:"modify request/response"},
+      {s:"Discovery-based routing", d:"auto-route to Eureka services"},
+      {s:"Custom routes", d:"your own path rules"}
+     ]},
+    {m:"Filters &amp; cross-cutting concerns", goal:"add a correlation ID and logging to every request automatically.",
+     build:"Add a response-header filter, then a custom filter that stamps a correlation ID on each request and logs it.",
+     watch:"Handle CORS at the gateway or browsers will block your frontend calls.",
+     sub:[
+      {s:"Built-in filters", d:"ready-made request/response tweaks"},
+      {s:"addRequestHeader / addResponseHeader", d:"inject headers"},
+      {s:"Custom global filters", d:"logic for every request"},
+      {s:"Correlation IDs", d:"trace one request across services"},
+      {s:"Gateway logging &amp; tracing", d:"observe traffic at the edge"},
+      {s:"CORS configuration", d:"allow your frontend origins"}
+     ]},
+    {m:"Gateway design patterns", goal:"decide what logic lives at the gateway.",
+     sub:[
+      {s:"Request aggregation", d:"combine several calls into one"},
+      {s:"Offloading (auth/SSL/limits)", d:"shared work at the edge"},
+      {s:"Backend-for-Frontend (BFF)", d:"a tailored gateway per client"},
+      {s:"Rate limiting at the edge", d:"protect everything behind it"}
+     ]}
+  ]
+});
+
+PHASES.push({
+  n:"07", emoji:"🛡️", id:"resiliency", chip:"Resiliency", weeks:"~1–2 weeks",
+  title:"Resiliency — staying up when things fail",
+  tag:"stop one failing service from taking down the rest, retry smartly, and protect services from overload.",
+  prereq:"Phases 05 &amp; 06 — you need services calling each other and a gateway to make resilient.",
+  modules:[
+    {m:"Why resiliency", goal:"understand cascading failure — the domino effect you're preventing.",
+     build:"Trace on paper how one slow service could cascade into a full outage.",
+     sub:[
+      {s:"Failure is constant in distributed systems", d:"design for it"},
+      {s:"Cascading failures", d:"one sick service topples many"},
+      {s:"Fail fast", d:"don't hang waiting"},
+      {s:"Graceful degradation", d:"partial > total failure"}
+     ]},
+    {m:"Circuit Breaker (Resilience4j)", goal:"cut off calls to a failing service and serve a fallback.",
+     build:"Add a circuit breaker (gateway + a Feign call) with a fallback; force failures and watch it open then recover.",
+     sub:[
+      {s:"The circuit breaker idea", d:"like an electrical breaker"},
+      {s:"Closed state", d:"normal operation"},
+      {s:"Open state", d:"block calls, use fallback"},
+      {s:"Half-open state", d:"test if it recovered"},
+      {s:"Fallback methods", d:"a graceful backup response"},
+      {s:"Resilience4j config", d:"thresholds &amp; windows"},
+      {s:"Circuit breaker in the Gateway", d:"protect at the edge"},
+      {s:"Circuit breaker with Feign", d:"protect service-to-service calls"}
+     ]},
+    {m:"Retry &amp; timeouts", goal:"recover from brief blips without hanging or double-acting.",
+     build:"Set connect/read timeouts, add a retry with backoff, and watch a flaky call succeed on a later attempt.",
+     watch:"Never blindly retry non-idempotent actions (like charging a card) — you can double-charge people.",
+     sub:[
+      {s:"HTTP connect &amp; read timeouts", d:"cap how long you wait"},
+      {s:"The Retry pattern", d:"re-attempt transient failures"},
+      {s:"Backoff", d:"wait longer between tries"},
+      {s:"Max attempts", d:"know when to give up"},
+      {s:"Idempotency &amp; retries", d:"only retry safe operations"}
+     ]},
+    {m:"Rate limiting with Redis", goal:"cap request rates to protect services (and meet Redis).",
+     build:"Run Redis, add a Redis-backed rate limiter to a gateway route, then flood it and watch it return 429.",
+     tip:"Redis is worth knowing well on its own — cache, rate-limit counter, session store. You'll meet it again as AWS ElastiCache.",
+     sub:[
+      {s:"What Redis is", d:"blazing-fast in-memory data store"},
+      {s:"Why a rate limiter", d:"stop overload &amp; abuse"},
+      {s:"Token bucket idea", d:"how limiting counts requests"},
+      {s:"Redis RateLimiter in Gateway", d:"shared counting across instances"},
+      {s:"Key resolver", d:"limit per user / IP / key"},
+      {s:"429 Too Many Requests", d:"the response when capped"},
+      {s:"Rate limiting inside a service", d:"protect a single service too"}
+     ]},
+    {m:"Bulkhead &amp; pattern ordering", goal:"isolate failures and combine patterns correctly.",
+     build:"Add a bulkhead, reason about aspect order, then run the whole resilient system via Compose and force failures.",
+     sub:[
+      {s:"The Bulkhead pattern", d:"isolate resources like ship compartments"},
+      {s:"Thread-pool vs semaphore bulkhead", d:"two isolation styles"},
+      {s:"Aspect order of patterns", d:"retry vs breaker vs limiter order"},
+      {s:"Testing resiliency", d:"prove it survives failure"}
+     ]}
+  ]
+});
+
+PHASES.push({
+  n:"08", emoji:"🔭", id:"observability", chip:"Observability", weeks:"~2 weeks",
+  title:"Observability — see what's happening inside",
+  tag:"gather all logs in one place, watch live metrics &amp; dashboards, get alerts, and trace a request across every service.",
+  prereq:"Phases 05–07 — a running multi-service system (ideally with correlation IDs) to observe.",
+  modules:[
+    {m:"Observability vs monitoring", goal:"know the three pillars and the language ops teams use.",
+     build:"Memorize the three pillars — logs, metrics, traces — and set up one tool for each in this phase.",
+     sub:[
+      {s:"Monitoring vs observability", d:"known checks vs asking new questions"},
+      {s:"Pillar 1: logs", d:"what happened"},
+      {s:"Pillar 2: metrics", d:"numbers over time"},
+      {s:"Pillar 3: traces", d:"a request's path"},
+      {s:"SLI / SLO / SLA", d:"how reliability is measured"},
+      {s:"RED &amp; USE methods", d:"what to actually watch"}
+     ]},
+    {m:"Centralized logging — Grafana, Loki, Promtail", goal:"find one error among thousands of lines across many containers.",
+     build:"Add the stack via Compose, cause an error, then search all services in Grafana and filter by one correlation ID.",
+     sub:[
+      {s:"Log aggregation", d:"all logs in one searchable place"},
+      {s:"Promtail", d:"collects &amp; ships logs"},
+      {s:"Loki", d:"stores &amp; indexes logs"},
+      {s:"Grafana (logs view)", d:"search across services"},
+      {s:"Structured logging", d:"machine-readable log lines"},
+      {s:"Log levels", d:"ERROR/WARN/INFO/DEBUG discipline"},
+      {s:"Search by correlation ID", d:"follow one request end to end"}
+     ]},
+    {m:"Metrics &amp; dashboards — Micrometer, Prometheus, Grafana", goal:"see health &amp; trends and get alerted before users notice.",
+     build:"Wire Micrometer + Prometheus into services, build a Grafana dashboard, and create an alert on error spikes.",
+     tip:"Grafana ships ready-made JVM/Spring dashboards — import one to get a great view in minutes.",
+     sub:[
+      {s:"Actuator metrics endpoint", d:"expose app numbers"},
+      {s:"Micrometer", d:"the metrics facade"},
+      {s:"Prometheus scraping", d:"pull &amp; store time-series"},
+      {s:"Grafana dashboards", d:"charts of your metrics"},
+      {s:"Custom metrics", d:"measure your own things"},
+      {s:"Alerts &amp; notifications", d:"get told when it's bad"}
+     ]},
+    {m:"Distributed tracing — OpenTelemetry &amp; Tempo", goal:"pinpoint the slow step in a request across services.",
+     build:"Add OpenTelemetry, send traces to Tempo, view a request timeline, and jump from a log line to its trace.",
+     sub:[
+      {s:"Spans &amp; traces", d:"steps and the whole journey"},
+      {s:"OpenTelemetry", d:"the tracing standard"},
+      {s:"Tempo", d:"stores traces"},
+      {s:"Context propagation", d:"trace IDs flow between services"},
+      {s:"Logs ↔ traces linking", d:"jump between the two"}
+     ]}
+  ]
+});
+
+PHASES.push({
+  n:"09", emoji:"🔐", id:"security", chip:"Security", weeks:"~2–3 weeks",
+  title:"Security — OAuth2, OpenID Connect &amp; Keycloak",
+  tag:"secure services with industry-standard auth, protect service-to-service calls, log users in, and enforce roles.",
+  prereq:"Phase 06 (Gateway) &amp; HTTP basics — security is layered on at the gateway, so that must exist.",
+  modules:[
+    {m:"Why, and OAuth2 fundamentals", goal:"understand what OAuth2 solves before touching tokens.",
+     build:"Be able to say what an access token is and why it expires.",
+     watch:"Never build your own password/login system in production — rolling your own auth is a dangerous classic mistake.",
+     sub:[
+      {s:"Authentication vs authorization", d:"who you are vs what you can do"},
+      {s:"Problems OAuth2 solves", d:"no password sharing, revocable access"},
+      {s:"Access tokens", d:"short-lived proof of access"},
+      {s:"Token expiry &amp; refresh (intro)", d:"why tokens don't last forever"}
+     ]},
+    {m:"OAuth2 roles &amp; OpenID Connect", goal:"map the actors and know when to use which grant.",
+     build:"Draw the four roles and the token flow; note what OIDC adds (identity).",
+     tip:"Memorize the four roles — every security topic ahead is these actors passing tokens.",
+     sub:[
+      {s:"Resource owner", d:"the user"},
+      {s:"Client", d:"the app requesting access"},
+      {s:"Authorization server", d:"issues tokens"},
+      {s:"Resource server", d:"holds protected data"},
+      {s:"OpenID Connect (OIDC)", d:"adds login/identity on top"},
+      {s:"ID token vs access token", d:"who you are vs what you can do"},
+      {s:"Grant types overview", d:"the different auth flows"},
+      {s:"Scopes", d:"fine-grained permission labels"},
+      {s:"JWT structure", d:"header.payload.signature"}
+     ]},
+    {m:"The auth server — Keycloak", goal:"run a real IAM product instead of building one.",
+     build:"Run Keycloak in a container, open the admin console, and create a realm.",
+     sub:[
+      {s:"IAM products", d:"Keycloak, Okta, Auth0, Cognito"},
+      {s:"Why Keycloak", d:"free, open-source, standards-based"},
+      {s:"Realms", d:"isolated user/role/client space"},
+      {s:"Clients, users &amp; roles", d:"who logs in and what they can do"}
+     ]},
+    {m:"Service-to-service — Client Credentials flow", goal:"let one service authenticate to another (no human).",
+     build:"Register a client, fetch a token with its credentials, and call a protected endpoint; reject tokenless calls.",
+     sub:[
+      {s:"When there's no user", d:"machine-to-machine calls"},
+      {s:"Registering a client", d:"an app identity + secret"},
+      {s:"Getting an access token", d:"exchange credentials for a token"},
+      {s:"Calling a protected service", d:"present the token"}
+     ]},
+    {m:"User login — Authorization Code flow", goal:"log real humans in the way the modern web does.",
+     build:"Register a client &amp; test user, run the authorization-code flow end to end, watch the redirect-login-token dance.",
+     sub:[
+      {s:"The redirect login flow", d:"send user to the login page"},
+      {s:"Authorization code → tokens", d:"swap the code for tokens"},
+      {s:"PKCE", d:"securing public clients"},
+      {s:"Refresh tokens", d:"stay logged in safely"}
+     ]},
+    {m:"Enforcing security", goal:"require valid tokens and allow actions only by role.",
+     build:"Make the gateway a resource server requiring valid tokens, then restrict endpoints to specific roles; test via Compose.",
+     sub:[
+      {s:"Gateway as resource server", d:"validate tokens at the edge"},
+      {s:"Validating JWTs", d:"check signature &amp; claims"},
+      {s:"Role-based authorization", d:"allow/deny by role"},
+      {s:"Method security (@PreAuthorize)", d:"protect individual methods"},
+      {s:"Roles vs scopes", d:"who you are vs what the app may do"},
+      {s:"CSRF &amp; CORS notes", d:"web-security gotchas"},
+      {s:"TLS &amp; mTLS (pointer)", d:"encrypt traffic (see Phase 11)"}
+     ]}
+  ]
+});
+
+PHASES.push({
+  n:"10", emoji:"📨", id:"events", chip:"Event-driven", weeks:"~2–3 weeks",
+  title:"Event-driven microservices — talking without waiting",
+  tag:"let services communicate through events, using RabbitMQ and Kafka, and keep data consistent across them.",
+  prereq:"Phase 01 and comfort adding containers via Compose — brokers run alongside your services.",
+  modules:[
+    {m:"Event-driven models", goal:"know when to fire an event instead of making a call.",
+     build:"Contrast a direct call vs publishing an event that three services react to (e.g. 'send welcome email after signup').",
+     tip:"Rule of thumb: sync when you need an answer now; events for 'fire and forget' work others handle later.",
+     sub:[
+      {s:"Synchronous vs asynchronous", d:"wait for a reply vs don't"},
+      {s:"Publish/subscribe", d:"publish once, many react"},
+      {s:"Events vs commands", d:"'it happened' vs 'do this'"},
+      {s:"Benefits of events", d:"loose coupling, absorbs spikes"}
+     ]},
+    {m:"Message broker — RabbitMQ", goal:"move messages reliably between services.",
+     build:"Run RabbitMQ, open its management UI, and watch messages flow through a queue.",
+     sub:[
+      {s:"What a broker is", d:"the post office for messages"},
+      {s:"Queues", d:"where messages wait"},
+      {s:"Exchanges &amp; routing", d:"how messages get directed"},
+      {s:"Producers &amp; consumers", d:"send &amp; receive"},
+      {s:"Dead-letter queues", d:"where failed messages go"},
+      {s:"Management UI", d:"watch queues live"}
+     ]},
+    {m:"Spring Cloud Function", goal:"write message logic as clean, tech-agnostic functions.",
+     build:"Build a small 'message' service as a Spring Cloud Function that processes an incoming event.",
+     sub:[
+      {s:"Functions as business logic", d:"no messaging code tangled in"},
+      {s:"Function / Consumer / Supplier", d:"the three shapes"},
+      {s:"Testability", d:"plain functions are easy to test"}
+     ]},
+    {m:"Spring Cloud Stream", goal:"bind functions to a real broker via config, swappable later.",
+     build:"Connect your function to RabbitMQ with Stream so one service streams events and another processes them; demo via Compose.",
+     sub:[
+      {s:"Bindings", d:"declare inputs &amp; outputs"},
+      {s:"Binders", d:"the broker adapters"},
+      {s:"Broker portability", d:"RabbitMQ ↔ Kafka via config"}
+     ]},
+    {m:"Apache Kafka", goal:"use the heavy-duty streaming platform and know when to pick it.",
+     build:"Install Kafka and redo your async flow on Kafka via Stream (mostly a config swap); compare to RabbitMQ.",
+     tip:"RabbitMQ = smart broker, simple consumers, queues. Kafka = simple broker, smart consumers, huge replayable streams.",
+     sub:[
+      {s:"What Kafka is", d:"distributed event streaming at scale"},
+      {s:"Topics", d:"named streams of events"},
+      {s:"Partitions &amp; offsets", d:"parallelism &amp; position"},
+      {s:"Producers &amp; consumers", d:"write &amp; read the log"},
+      {s:"Consumer groups", d:"scale out consumption"},
+      {s:"Kafka vs RabbitMQ", d:"when to choose which"}
+     ]},
+    {m:"Keeping data consistent (advanced but crucial)", goal:"handle transactions that span multiple services.",
+     build:"Design (on paper) an order flow using the Saga pattern with compensating actions if a step fails.",
+     watch:"There are no cross-service database transactions. You manage consistency with patterns, not with a single commit.",
+     sub:[
+      {s:"Why no distributed transactions", d:"each service owns its own DB"},
+      {s:"Eventual consistency", d:"data converges over time"},
+      {s:"The Saga pattern", d:"a sequence with compensating steps"},
+      {s:"The Outbox pattern", d:"reliably publish events with DB writes"},
+      {s:"Idempotent consumers", d:"safely handle duplicate messages"},
+      {s:"At-least-once vs exactly-once", d:"delivery guarantees"},
+      {s:"Event schema &amp; versioning", d:"evolve events without breakage"}
+     ]}
+  ]
+});
+
+PHASES.push({
+  n:"11", emoji:"☸️", id:"kubernetes", chip:"Kubernetes", weeks:"~5–6 weeks",
+  title:"Kubernetes — running containers in production",
+  tag:"deploy, scale, self-heal, update, secure and expose a whole system on the industry-standard runtime, packaged with Helm.",
+  prereq:"Phase 03 (Docker) is mandatory and must feel solid — K8s runs containers, so you need images in a registry first.",
+  modules:[
+    {m:"The orchestration problem &amp; architecture", goal:"grasp 'declare desired state, let K8s reconcile' — the heart of it.",
+     build:"Draw the control plane vs worker nodes and label each piece.",
+     watch:"Kubernetes is genuinely big. Go slower here than anywhere else and expect to re-read — that's normal.",
+     sub:[
+      {s:"Why orchestration", d:"running many containers at scale"},
+      {s:"Desired vs actual state", d:"K8s constantly reconciles"},
+      {s:"Control plane", d:"API server, scheduler, controllers"},
+      {s:"etcd", d:"the cluster's datastore"},
+      {s:"Worker nodes &amp; kubelet", d:"where containers run"},
+      {s:"kubectl", d:"the command-line control tool"}
+     ]},
+    {m:"A local cluster &amp; tooling", goal:"practice free on your laptop before spending on cloud.",
+     build:"Enable K8s in Docker Desktop, run <code>kubectl get nodes</code>, and deploy the Dashboard UI.",
+     sub:[
+      {s:"Cluster via Docker Desktop", d:"free single-node cluster"},
+      {s:"kubectl basics", d:"<code>get</code>, <code>describe</code>, <code>apply</code>, <code>logs</code>"},
+      {s:"Contexts", d:"switch between clusters"},
+      {s:"Namespaces", d:"isolate groups of resources"},
+      {s:"Kubernetes Dashboard", d:"a visual view of the cluster"}
+     ]},
+    {m:"Core workloads (as YAML)", goal:"run a service with the standard Deployment + Service pair.",
+     build:"Write a Deployment (pulling your image) + a Service; <code>kubectl apply -f</code> and see Pods running.",
+     tip:"When something's wrong: <code>kubectl get pods</code> → <code>describe pod</code> → <code>logs</code>. Always in that order.",
+     sub:[
+      {s:"Pods", d:"the smallest unit (a container or few)"},
+      {s:"ReplicaSets", d:"keep N copies running"},
+      {s:"Deployments", d:"manage Pods &amp; updates"},
+      {s:"Services", d:"a stable address for Pods"},
+      {s:"Labels &amp; selectors", d:"how objects find each other"},
+      {s:"Writing manifests", d:"declarative YAML files"},
+      {s:"kubectl apply / get / describe / logs", d:"the daily loop"}
+     ]},
+    {m:"Configuration &amp; secrets", goal:"feed settings to Pods the cloud-native way.",
+     build:"Create a ConfigMap of env vars and wire it into your Deployment.",
+     sub:[
+      {s:"ConfigMaps", d:"non-secret settings"},
+      {s:"Secrets", d:"sensitive values"},
+      {s:"Injecting as env vars", d:"config into the container"},
+      {s:"Mounting as files", d:"config as mounted volumes"}
+     ]},
+    {m:"Storage for stateful apps", goal:"persist data that must survive Pod restarts.",
+     build:"Attach a PersistentVolumeClaim to a Pod and confirm data survives a Pod delete.",
+     sub:[
+      {s:"Volumes", d:"storage attached to Pods"},
+      {s:"PersistentVolume (PV)", d:"a piece of real storage"},
+      {s:"PersistentVolumeClaim (PVC)", d:"a request for storage"},
+      {s:"StorageClass", d:"dynamic storage provisioning"},
+      {s:"StatefulSets", d:"stable identity for stateful apps"}
+     ]},
+    {m:"Self-healing, scaling &amp; updates", goal:"the magic that makes K8s worth the complexity.",
+     build:"Delete a Pod (watch it heal), scale up/down, roll out a new image, then roll it back.",
+     sub:[
+      {s:"Self-healing", d:"dead Pods are recreated"},
+      {s:"Manual scaling", d:"change the replica count"},
+      {s:"Rolling updates", d:"zero-downtime version changes"},
+      {s:"Rollback", d:"instantly revert a bad release"},
+      {s:"Horizontal Pod Autoscaler (HPA)", d:"auto-scale on load"},
+      {s:"Liveness / readiness / startup probes", d:"restart &amp; route correctly"}
+     ]},
+    {m:"Networking &amp; exposure", goal:"expose services to the internet the production way.",
+     build:"Install an Ingress controller and route external traffic to different services by path.",
+     sub:[
+      {s:"Service types", d:"ClusterIP, NodePort, LoadBalancer"},
+      {s:"Cluster DNS", d:"reach services by name"},
+      {s:"Ingress", d:"one smart entry point + rules"},
+      {s:"Ingress Controller (NGINX)", d:"enforces the rules"},
+      {s:"Network policies", d:"firewall rules between Pods"}
+     ]},
+    {m:"Scheduling &amp; resource management", goal:"control where Pods run and how much they use.",
+     build:"Set CPU/memory requests &amp; limits on your Deployment and add a CronJob that runs on a schedule.",
+     sub:[
+      {s:"Requests &amp; limits", d:"reserve &amp; cap resources"},
+      {s:"QoS classes", d:"who gets evicted first"},
+      {s:"Node affinity &amp; selectors", d:"pin Pods to nodes"},
+      {s:"Taints &amp; tolerations", d:"repel/allow Pods on nodes"},
+      {s:"Init &amp; sidecar containers", d:"setup &amp; helper containers"},
+      {s:"DaemonSets", d:"one Pod per node"},
+      {s:"Jobs &amp; CronJobs", d:"one-off &amp; scheduled tasks"}
+     ]},
+    {m:"Security &amp; access control", goal:"lock down who and what can do things in the cluster.",
+     sub:[
+      {s:"RBAC", d:"roles &amp; permissions in the cluster"},
+      {s:"ServiceAccounts", d:"identities for Pods"},
+      {s:"Namespace isolation", d:"separate teams/environments"},
+      {s:"Secrets at rest", d:"encrypting sensitive data"}
+     ]},
+    {m:"Packaging with Helm", goal:"deploy your whole system with one versioned command.",
+     build:"Write a Helm chart for a service, make dev/qa/prod values, then <code>install</code>, <code>upgrade</code>, <code>rollback</code>, <code>uninstall</code>.",
+     tip:"Use Helm to also install supporting infra — Keycloak, Kafka, Prometheus, Grafana/Loki/Tempo — from ready-made charts.",
+     sub:[
+      {s:"Why Helm", d:"stop hand-editing dozens of YAMLs"},
+      {s:"Charts", d:"a packaged K8s app"},
+      {s:"Templates &amp; values.yaml", d:"parameterize your manifests"},
+      {s:"install / upgrade / rollback / uninstall", d:"lifecycle commands"},
+      {s:"Chart repositories", d:"share &amp; reuse charts"},
+      {s:"Per-environment values", d:"one chart, many environments"}
+     ]},
+    {m:"Kubernetes-native discovery", goal:"drop Eureka once the platform provides discovery.",
+     build:"Switch services to Kubernetes-native discovery, update Helm charts, confirm calls still work.",
+     sub:[
+      {s:"K8s built-in discovery", d:"a Service IS discovery + LB"},
+      {s:"Spring Cloud Kubernetes", d:"use server-side discovery"},
+      {s:"Client-side vs server-side", d:"know both approaches"}
+     ]},
+    {m:"Service mesh, mTLS &amp; Operators", goal:"understand advanced runtime features (awareness level).",
+     build:"Study how TLS then mutual TLS work step by step; sketch what a sidecar proxy does.",
+     sub:[
+      {s:"Service mesh (Istio)", d:"traffic features without code changes"},
+      {s:"Sidecar proxies", d:"how a mesh intercepts traffic"},
+      {s:"How TLS works", d:"certificates &amp; encryption"},
+      {s:"mTLS", d:"both sides prove identity"},
+      {s:"Operators &amp; CRDs", d:"extend K8s with custom automation"}
+     ]}
+  ]
+});
+
+PHASES.push({
+  n:"12", emoji:"🔁", id:"cicd", chip:"CI/CD & GitOps", weeks:"~3 weeks",
+  title:"CI/CD &amp; GitOps — ship automatically and safely",
+  tag:"build, test and deploy on every push, and roll out changes safely with canary and blue-green releases.",
+  prereq:"Solid Git (Phase 00), Docker (Phase 03), and Kubernetes basics (Phase 11) — pipelines build images and deploy to a cluster.",
+  modules:[
+    {m:"Git, level 2", goal:"a clean workflow so automation is trivial.",
+     build:"Run the full loop: branch → commit → push → PR → review → merge → tag a release; resolve one conflict on purpose.",
+     tip:"One rule: <code>main</code> is always deployable; all work is on branches merged via PRs.",
+     sub:[
+      {s:"Branching strategy", d:"main + short-lived feature branches"},
+      {s:"Pull request workflow", d:"propose, review, merge"},
+      {s:"Merge vs rebase", d:"two ways to combine history"},
+      {s:"Resolving conflicts", d:"the scary-once skill"},
+      {s:"Tags &amp; releases", d:"mark shipped versions"},
+      {s:"Semantic versioning", d:"<code>MAJOR.MINOR.PATCH</code>"},
+      {s:"Trunk-based development", d:"a common team model"}
+     ]},
+    {m:"What CI/CD means", goal:"map your build-to-deploy pipeline before automating it.",
+     build:"Draw your pipeline: push → build → test → image → push → deploy.",
+     sub:[
+      {s:"Continuous Integration", d:"auto build &amp; test every change"},
+      {s:"Continuous Delivery vs Deployment", d:"ready-to-ship vs auto-ship"},
+      {s:"Pipelines &amp; stages", d:"the automated sequence"},
+      {s:"Environments", d:"dev → staging → prod"}
+     ]},
+    {m:"CI with GitHub Actions", goal:"a real pipeline triggered by every push.",
+     build:"Write a workflow that checks out, builds with Maven, runs tests, builds a Docker image, and pushes to a registry.",
+     sub:[
+      {s:"Workflows, jobs, steps", d:"the structure of a pipeline"},
+      {s:"Triggers", d:"run on push, PR, tag, schedule"},
+      {s:"Actions &amp; the marketplace", d:"reusable pipeline steps"},
+      {s:"Secrets", d:"safely store credentials"},
+      {s:"Caching &amp; matrix builds", d:"faster, multi-version builds"},
+      {s:"Build → test → image → push", d:"the full CI job"}
+     ]},
+    {m:"Jenkins — the enterprise workhorse", goal:"be productive in the tool most big companies use.",
+     build:"Run Jenkins, create a Jenkinsfile pipeline that builds &amp; tests your service, and compare to Actions.",
+     tip:"Concepts (stages, steps, agents, credentials) transfer across all CI tools — learn them once.",
+     sub:[
+      {s:"Jenkins server &amp; agents", d:"controller + workers"},
+      {s:"Jenkinsfile (pipeline as code)", d:"pipeline in your repo"},
+      {s:"Declarative pipeline stages", d:"build/test/deploy blocks"},
+      {s:"Plugins", d:"connect to almost anything"},
+      {s:"Credentials management", d:"secrets in Jenkins"}
+     ]},
+    {m:"Artifact registries", goal:"the handoff point between build and deploy.",
+     build:"Point your pipeline to push versioned image tags (git SHA or version) to a registry.",
+     watch:"Never deploy the <code>latest</code> tag to prod — you can't tell which build is running.",
+     sub:[
+      {s:"Image registries", d:"Docker Hub, GHCR, ECR, Harbor"},
+      {s:"Versioned tags", d:"uniquely identify every build"},
+      {s:"Registry auth in pipelines", d:"push securely"}
+     ]},
+    {m:"GitOps with Argo CD", goal:"deploy by committing to Git; let the cluster match it.",
+     build:"Install Argo CD, point it at a repo of your Helm charts, deploy via a commit, then break the cluster and watch it heal.",
+     sub:[
+      {s:"GitOps principle", d:"Git is the source of truth"},
+      {s:"Argo CD", d:"syncs cluster to Git"},
+      {s:"Automatic sync &amp; drift correction", d:"cluster self-heals to Git state"},
+      {s:"App-of-apps pattern", d:"manage many apps together"},
+      {s:"CI builds, Argo deploys", d:"the modern split"}
+     ]},
+    {m:"Progressive delivery — Argo Rollouts", goal:"release risky changes to a few users first.",
+     build:"Set up a canary: 10% traffic to the new version, verify, then promote to 100% — and practice aborting.",
+     sub:[
+      {s:"Why not ship to everyone at once", d:"contain the blast radius"},
+      {s:"Canary releases", d:"gradually shift traffic"},
+      {s:"Blue-green releases", d:"switch over, instant rollback"},
+      {s:"Analysis, promote &amp; abort", d:"automate go/no-go"}
+     ]},
+    {m:"Supply-chain security", goal:"secure the build, not just the running app.",
+     build:"Add an image-vulnerability scan that fails the build on critical issues, and generate an SBOM.",
+     sub:[
+      {s:"Image scanning (Trivy)", d:"find known vulnerabilities"},
+      {s:"SBOM", d:"a full list of what's in your image"},
+      {s:"Image signing", d:"prove images are authentic"},
+      {s:"Secret scanning", d:"catch leaked credentials"},
+      {s:"Least-privilege pipelines", d:"minimal pipeline permissions"}
+     ]}
+  ]
+});
+
+PHASES.push({
+  n:"13", emoji:"🌩️", id:"aws", chip:"AWS (deep)", weeks:"~4–6 weeks",
+  title:"Put our app on AWS (the real cloud)",
+  tag:"host, store, connect, secure and monitor a real production system on AWS, and describe all of it as code.",
+  prereq:"Phases 03 &amp; 11 (Docker + Kubernetes) and a credit card for the account. Everything you built locally now goes to a real cloud.",
+  modules:[
+    {m:"Cloud basics, your account &amp; staying safe from bills", goal:"get set up, understand how AWS is structured, and never get a surprise bill.",
+     build:"Create an AWS account, enable MFA on root, set a Budget with an email alert (e.g. $5), and pin the Billing dashboard.",
+     watch:"ALWAYS shut down or delete resources when you finish practicing — EC2, EKS, load balancers, NAT gateways, Elastic IPs especially. Forgotten resources are how learners get huge bills. Treat this as sacred.",
+     sub:[
+      {s:"What cloud computing is", d:"rent compute/storage/network on demand"},
+      {s:"IaaS vs PaaS vs SaaS", d:"how much AWS manages for you"},
+      {s:"Regions", d:"geographic locations of data centers"},
+      {s:"Availability Zones", d:"isolated data centers within a region"},
+      {s:"Edge locations", d:"points of presence for CDN/DNS"},
+      {s:"The AWS Management Console", d:"the web control panel"},
+      {s:"AWS CLI", d:"drive AWS from your terminal"},
+      {s:"The shared responsibility model", d:"what AWS secures vs what you secure"},
+      {s:"The free tier", d:"what you can use for free, and its limits"},
+      {s:"How AWS pricing works", d:"pay-per-use, per service"},
+      {s:"Budgets &amp; billing alarms", d:"get warned/emailed before you're charged"},
+      {s:"Cost Explorer &amp; tags", d:"see and attribute your spend"},
+      {s:"Cost-safety habits", d:"stop/terminate everything you're not using"}
+     ]},
+    {m:"Who can do what — IAM (identity &amp; access)", goal:"control access to everything in AWS safely — the foundation the rest sits on.",
+     build:"Stop using root: create an admin IAM user with MFA, a read-only group, and an IAM role that lets EC2 read one S3 bucket — then attach it and test.",
+     tip:"Prefer roles over long-lived access keys everywhere — temporary, auto-rotating credentials are far safer than keys sitting in a config file.",
+     watch:"Never commit access keys to Git or bake them into an image. Leaked keys are a top cause of AWS breaches.",
+     sub:[
+      {s:"The root account", d:"all-powerful; lock it away, use it almost never"},
+      {s:"MFA (multi-factor auth)", d:"a second factor on root &amp; users"},
+      {s:"IAM users", d:"long-lived identities for people"},
+      {s:"IAM groups", d:"bundle permissions for many users"},
+      {s:"IAM policies (JSON)", d:"Effect / Action / Resource / Condition rules"},
+      {s:"Managed vs inline policies", d:"reusable AWS/customer policies vs one-off"},
+      {s:"IAM roles", d:"temporary identities that services/users assume"},
+      {s:"Instance profiles", d:"attach a role to an EC2 instance"},
+      {s:"STS &amp; temporary credentials", d:"short-lived keys via AssumeRole"},
+      {s:"Trust policies", d:"who is allowed to assume a role"},
+      {s:"Least privilege", d:"grant only exactly what's needed"},
+      {s:"Policy evaluation (allow/deny)", d:"explicit deny always wins"},
+      {s:"IAM Access Analyzer", d:"find overly-open or unused access"},
+      {s:"Access keys &amp; rotation", d:"when you must use keys, rotate them"},
+      {s:"Users vs Identity Center (SSO)", d:"the modern way to manage humans"}
+     ]},
+    {m:"Deploy our app on a cloud server (EC2)", goal:"launch a server, reach it, run our app's container on it, and safely tear it down.",
+     build:"Launch a free-tier instance with a user-data script that installs Docker, connect via SSM (no open SSH port), run your image as a systemd service, then stop it.",
+     watch:"Never leave port 22 open to 0.0.0.0/0 with a password. Use key pairs or (better) SSM Session Manager.",
+     tip:"Give the instance an IAM role, not access keys — the app then reaches S3/RDS with zero stored secrets.",
+     sub:[
+      {s:"What EC2 is", d:"rentable virtual machines, billed per second"},
+      {s:"Regions &amp; Availability Zones", d:"where your instance physically runs"},
+      {s:"AMIs (Amazon Machine Images)", d:"the OS + software template you boot from"},
+      {s:"Instance families &amp; types", d:"t/m/c/r classes; matching vCPU &amp; RAM"},
+      {s:"Purchasing options", d:"On-Demand vs Reserved vs Spot (intro)"},
+      {s:"Key pairs", d:"the SSH key that proves it's you"},
+      {s:"Launching an instance (console wizard)", d:"AMI → type → key → network → storage → launch"},
+      {s:"Security groups", d:"the instance's inbound/outbound firewall rules"},
+      {s:"Public vs private IP &amp; Elastic IP", d:"addresses; a fixed public IP that survives restarts"},
+      {s:"Connecting via SSH", d:"<code>ssh -i key.pem ec2-user@IP</code>"},
+      {s:"Connecting via SSM Session Manager", d:"shell access with NO open SSH port (safer)"},
+      {s:"Instance metadata (IMDSv2)", d:"data the box can query about itself"},
+      {s:"User-data bootstrap scripts", d:"run setup commands automatically at first boot"},
+      {s:"EBS volumes", d:"network-attached disks (root + extra data disks)"},
+      {s:"EBS volume types", d:"gp3 vs io2; IOPS vs throughput"},
+      {s:"Mounting &amp; resizing a volume", d:"format, mount, and grow storage live"},
+      {s:"EBS snapshots", d:"point-in-time backups of a disk"},
+      {s:"Instance store vs EBS", d:"ephemeral scratch vs persistent storage"},
+      {s:"IAM instance role", d:"grant the box AWS permissions, no stored keys"},
+      {s:"Installing your app &amp; Docker", d:"get your container running on the box"},
+      {s:"Running your app as a service (systemd)", d:"auto-start on boot, restart on crash"},
+      {s:"Instance lifecycle", d:"start / stop / reboot / hibernate / terminate"},
+      {s:"Stop vs terminate", d:"stop keeps the disk &amp; bill for storage; terminate deletes"},
+      {s:"Tagging &amp; naming", d:"organize instances and track cost"},
+      {s:"Cleaning up", d:"terminate, release Elastic IPs, delete volumes/snapshots"}
+     ]},
+    {m:"Run our app on EC2 like production", goal:"turn our one hand-made server into a resilient, scalable, monitored, secure deployment of our app.",
+     build:"Bake a custom AMI of your app, put it behind an Application Load Balancer in an Auto Scaling Group across two AZs, connect it to RDS, and alarm on CPU in CloudWatch.",
+     tip:"The mindset shift: treat servers as disposable. You never SSH in to fix a box — you replace it from a template. This is 'immutable infrastructure'.",
+     watch:"A DB running ON the instance dies with it. In production the database lives in RDS, not on the box.",
+     sub:[
+      {s:"Launch templates", d:"reusable, versioned instance blueprints"},
+      {s:"Custom AMIs (baking)", d:"pre-install your app for fast, identical launches"},
+      {s:"Auto Scaling Groups (ASG)", d:"keep N instances; auto-replace unhealthy ones"},
+      {s:"Scaling policies", d:"add/remove instances on CPU, requests, or schedule"},
+      {s:"Multi-AZ deployment", d:"spread instances across zones to survive an AZ outage"},
+      {s:"Application Load Balancer (ALB)", d:"one entry point spreading traffic across instances"},
+      {s:"Target groups &amp; health checks", d:"the ALB only sends traffic to healthy boxes"},
+      {s:"HTTPS with ACM", d:"free TLS certificate terminated at the load balancer"},
+      {s:"Connect to RDS, not a local DB", d:"move data to a managed, backed-up database"},
+      {s:"Secrets via SSM Parameter Store / Secrets Manager", d:"no passwords baked into the image or disk"},
+      {s:"Patch management (SSM Patch Manager)", d:"keep the OS updated across the fleet"},
+      {s:"Run Command &amp; automation (SSM)", d:"run ops tasks on many instances at once"},
+      {s:"CloudWatch agent", d:"ship memory, disk, and app logs off the box"},
+      {s:"CloudWatch alarms &amp; dashboards", d:"get alerted on CPU/memory/errors before users do"},
+      {s:"Right-sizing &amp; cost control", d:"smallest type that works; Savings Plans / Spot"},
+      {s:"Backups &amp; recovery", d:"scheduled snapshots, restores, AMI rollback"},
+      {s:"Bastion host / SSM for private instances", d:"reach private-subnet boxes safely"},
+      {s:"Rolling &amp; blue-green deploys on EC2", d:"ship new versions with no downtime"},
+      {s:"Immutable infrastructure", d:"replace instances from templates, never hand-tweak"}
+     ]},
+    {m:"Containers on AWS — ECS, Fargate &amp; EKS", goal:"run your Docker microservices on AWS and argue ECS vs EKS with confidence.",
+     build:"Push your image to ECR, then run it on ECS Fargate behind an ALB with a task definition and service; scale it to 2 tasks.",
+     tip:"ECS/Fargate for simpler, AWS-native needs; EKS when you want portable standard Kubernetes (reuse Phase 11). Arguing this trade-off is a strong interview signal.",
+     sub:[
+      {s:"ECR (Elastic Container Registry)", d:"push/pull your private images"},
+      {s:"ECS core concepts", d:"cluster, task definition, task, service"},
+      {s:"Launch types: EC2 vs Fargate", d:"manage servers vs serverless containers"},
+      {s:"Task definitions", d:"image, CPU/memory, ports, env, secrets"},
+      {s:"ECS services &amp; desired count", d:"keep N tasks running &amp; healthy"},
+      {s:"ECS + ALB integration", d:"route traffic to tasks"},
+      {s:"ECS service auto scaling", d:"scale tasks on load"},
+      {s:"ECS task IAM roles", d:"give a task least-privilege AWS access"},
+      {s:"Logging to CloudWatch", d:"container logs off the box"},
+      {s:"EKS (managed Kubernetes)", d:"AWS runs the control plane"},
+      {s:"EKS node groups &amp; Fargate profiles", d:"where pods actually run"},
+      {s:"IRSA (IAM roles for service accounts)", d:"pod-level AWS permissions"},
+      {s:"AWS Load Balancer Controller", d:"K8s Ingress → ALB on EKS"},
+      {s:"ECS vs EKS vs plain EC2", d:"choosing the right compute"}
+     ]},
+    {m:"Serverless functions — Lambda", goal:"run code with no servers, event-driven, paying only per execution.",
+     build:"Write a Lambda (with an IAM role) triggered by an S3 upload that resizes/logs the file; wire it via API Gateway too.",
+     sub:[
+      {s:"What Lambda is", d:"event-driven functions, no servers to manage"},
+      {s:"The handler &amp; event object", d:"your entry function and its input"},
+      {s:"Triggers/event sources", d:"API Gateway, S3, SQS, SNS, EventBridge, schedule"},
+      {s:"Execution role", d:"the IAM permissions your function runs with"},
+      {s:"Environment variables &amp; secrets", d:"config without redeploying code"},
+      {s:"Memory, timeout &amp; pricing", d:"the knobs that set cost &amp; speed"},
+      {s:"Cold starts", d:"first-call latency, and how to reduce it"},
+      {s:"Concurrency &amp; scaling", d:"reserved/provisioned concurrency"},
+      {s:"Lambda layers", d:"share libraries across functions"},
+      {s:"Logging &amp; monitoring", d:"CloudWatch logs, metrics, X-Ray"},
+      {s:"When to use serverless vs containers", d:"glue/spiky/event work vs long-running"}
+     ]}
+  ]
+});
+
+PHASES[PHASES.length-1].modules.push(
+    {m:"Object storage in depth — S3", goal:"master AWS's most-used storage service end to end.",
+     build:"Create a bucket, block public access, upload with the SDK from Spring, turn on versioning + a lifecycle rule, generate a presigned URL, and enable event notifications to a Lambda.",
+     watch:"Accidentally making a bucket public is a famous, costly data leak. Keep Block Public Access ON and double-check every time.",
+     sub:[
+      {s:"Buckets &amp; objects", d:"containers and the files inside them"},
+      {s:"Keys &amp; prefixes ('folders')", d:"how objects are named &amp; grouped"},
+      {s:"Durability &amp; availability", d:"the famous 11 nines of durability"},
+      {s:"Block Public Access", d:"the master safety switch — keep it on"},
+      {s:"Bucket policies", d:"resource-level access rules (JSON)"},
+      {s:"ACLs vs policies vs IAM", d:"the ways access is granted"},
+      {s:"Versioning", d:"keep and restore old object versions"},
+      {s:"Storage classes", d:"Standard, IA, One-Zone, Glacier tiers"},
+      {s:"Intelligent-Tiering", d:"auto-optimize cost by access pattern"},
+      {s:"Lifecycle rules", d:"auto-transition or expire old data"},
+      {s:"Encryption (SSE-S3 / SSE-KMS)", d:"protect data at rest"},
+      {s:"Presigned URLs", d:"temporary, secure upload/download links"},
+      {s:"Multipart upload", d:"large files in parallel parts"},
+      {s:"Event notifications", d:"trigger Lambda/SQS/SNS on changes"},
+      {s:"Static website hosting", d:"serve a site straight from a bucket"},
+      {s:"S3 + CloudFront", d:"cache &amp; serve globally, cheaply"},
+      {s:"CORS on buckets", d:"let browsers call your bucket"},
+      {s:"AWS SDK from Spring", d:"upload/download in your service code"}
+     ]},
+    {m:"Managed databases — RDS, DynamoDB &amp; ElastiCache", goal:"let AWS run your data stores reliably, and pick the right one per need.",
+     build:"Move a service's DB to RDS in a private subnet with Multi-AZ, read/write an item in a DynamoDB table, and put ElastiCache Redis in front of a slow query.",
+     tip:"You already know Redis from rate limiting — ElastiCache is just AWS running it. Caching hot data is a huge, easy performance win.",
+     watch:"Put databases in PRIVATE subnets and reach them via security groups — never expose a DB to the public internet.",
+     sub:[
+      {s:"RDS", d:"managed relational databases (MySQL/Postgres…)"},
+      {s:"DB engines &amp; instance sizing", d:"choosing engine, class, storage"},
+      {s:"Subnet groups &amp; private placement", d:"where the DB lives in your VPC"},
+      {s:"Security groups for DB access", d:"only the app can connect"},
+      {s:"Multi-AZ (standby)", d:"automatic failover for availability"},
+      {s:"Read replicas", d:"scale reads horizontally"},
+      {s:"Automated backups &amp; snapshots", d:"point-in-time recovery"},
+      {s:"Parameter &amp; option groups", d:"tune database settings"},
+      {s:"Connecting Spring to RDS", d:"datasource URL, secrets, pooling"},
+      {s:"Aurora (awareness)", d:"AWS's high-performance MySQL/Postgres"},
+      {s:"DynamoDB", d:"fully-managed NoSQL at any scale"},
+      {s:"Partition &amp; sort keys", d:"how DynamoDB stores &amp; finds items"},
+      {s:"Capacity: on-demand vs provisioned", d:"how you pay for throughput"},
+      {s:"Secondary indexes (GSI/LSI)", d:"query by non-key attributes"},
+      {s:"DynamoDB Streams", d:"react to item changes (e.g. Lambda)"},
+      {s:"ElastiCache (Redis)", d:"managed in-memory cache"},
+      {s:"Caching strategies", d:"cache-aside, TTLs, invalidation"},
+      {s:"Relational vs NoSQL vs cache", d:"choosing the right store"}
+     ]},
+    {m:"Networking — VPC, subnets, ALB, CloudFront, Route 53, API Gateway", goal:"build a secure private network and expose only what should be public.",
+     build:"Create a VPC with public + private subnets across 2 AZs, an Internet Gateway and NAT, put your app in private subnets behind an ALB, front it with CloudFront, and point a Route 53 domain at it over HTTPS.",
+     watch:"Networking is the fiddliest part of AWS — subnets, route tables, security groups, gateways. Go slow, draw the diagram, expect a second pass.",
+     sub:[
+      {s:"VPC", d:"your isolated private network in AWS"},
+      {s:"CIDR blocks", d:"the IP address range of your network"},
+      {s:"Public vs private subnets", d:"internet-facing vs internal segments"},
+      {s:"Route tables", d:"where traffic in each subnet goes"},
+      {s:"Internet Gateway", d:"lets public subnets reach the internet"},
+      {s:"NAT Gateway", d:"private subnets get outbound-only internet"},
+      {s:"Security groups", d:"stateful instance-level firewall"},
+      {s:"Network ACLs", d:"stateless subnet-level firewall"},
+      {s:"Elastic IPs &amp; ENIs", d:"fixed IPs and network interfaces"},
+      {s:"VPC endpoints", d:"reach AWS services privately, no internet"},
+      {s:"VPC peering / Transit Gateway", d:"connect multiple VPCs"},
+      {s:"Application Load Balancer (ALB)", d:"L7 routing across targets"},
+      {s:"Network Load Balancer (awareness)", d:"L4, ultra-high performance"},
+      {s:"Target groups &amp; health checks", d:"route only to healthy targets"},
+      {s:"ACM (TLS certificates)", d:"free HTTPS certs for your domain"},
+      {s:"Route 53 (DNS)", d:"map your domain to your services"},
+      {s:"Route 53 routing policies", d:"weighted, latency, failover"},
+      {s:"CloudFront (CDN)", d:"cache &amp; serve content near users"},
+      {s:"API Gateway", d:"managed front door for APIs (great with Lambda)"}
+     ]},
+    {m:"Cloud messaging — SQS &amp; SNS", goal:"decouple services on AWS reliably, with zero servers to run.",
+     build:"Create an SNS topic that fans out to two SQS queues, publish an event, consume it in a service, and add a dead-letter queue — reusing Phase 10 thinking.",
+     sub:[
+      {s:"SQS", d:"reliable managed message queue"},
+      {s:"Standard vs FIFO queues", d:"high throughput vs strict ordering"},
+      {s:"Visibility timeout", d:"how long a message is hidden while processed"},
+      {s:"Dead-letter queues", d:"where repeatedly-failed messages go"},
+      {s:"Long polling", d:"efficient, cheaper message receiving"},
+      {s:"Message retention &amp; size", d:"how long/large messages can be"},
+      {s:"SNS", d:"pub/sub fan-out to many subscribers"},
+      {s:"SNS subscriptions", d:"SQS, Lambda, email, HTTP endpoints"},
+      {s:"SNS → SQS fan-out", d:"the classic reliable fan-out pattern"},
+      {s:"EventBridge", d:"event bus with rules &amp; filtering"},
+      {s:"Consuming from Spring", d:"poll SQS / receive SNS in your service"}
+     ]},
+    {m:"Infrastructure as Code — Terraform", goal:"describe all your infrastructure in text, and build or destroy it on command.",
+     build:"Write Terraform for a VPC + EC2 + security group using variables and a module; run <code>init</code>, <code>plan</code>, <code>apply</code>, then <code>destroy</code>. Store state in an S3 backend.",
+     tip:"<code>terraform destroy</code> is your best friend for low bills: build a big setup, experiment, then wipe it in one command when you're done for the day.",
+     watch:"Never commit <code>terraform.tfstate</code> (it can contain secrets) — use a remote backend and add it to .gitignore.",
+     sub:[
+      {s:"Why Infrastructure as Code", d:"repeatable, reviewable, versioned infra"},
+      {s:"Install &amp; HCL syntax", d:"the Terraform language basics"},
+      {s:"Providers", d:"connect Terraform to AWS"},
+      {s:"Resources", d:"the infrastructure you declare"},
+      {s:"Variables &amp; tfvars", d:"parameterize your configuration"},
+      {s:"Outputs", d:"export values (IPs, ARNs) after apply"},
+      {s:"Data sources", d:"reference existing AWS resources"},
+      {s:"State &amp; remote backends", d:"how Terraform tracks reality (S3 + lock)"},
+      {s:"The plan/apply/destroy workflow", d:"preview, create, tear down"},
+      {s:"Modules", d:"reusable, composable infra components"},
+      {s:"Workspaces &amp; environments", d:"dev/qa/prod from one codebase"},
+      {s:"Terraform in CI/CD", d:"automate infra changes with review"}
+     ]},
+    {m:"Watching it all — CloudWatch", goal:"never run in production blind — see health, get alerted, and debug fast.",
+     build:"Install the CloudWatch agent on an instance for memory/disk, ship app logs, build a dashboard, and create an alarm that emails you via SNS on high CPU or error rate.",
+     sub:[
+      {s:"CloudWatch Logs", d:"centralized log collection &amp; groups"},
+      {s:"Log Insights", d:"query and search your logs"},
+      {s:"Metrics", d:"CPU, network, request counts over time"},
+      {s:"The CloudWatch agent", d:"ship memory, disk &amp; custom metrics"},
+      {s:"Custom &amp; application metrics", d:"measure what matters to your app"},
+      {s:"Alarms", d:"trigger actions when a metric crosses a line"},
+      {s:"Composite alarms", d:"combine conditions to cut noise"},
+      {s:"Dashboards", d:"one glance at system health"},
+      {s:"Alerting via SNS", d:"email/Slack/PagerDuty when things break"},
+      {s:"EventBridge rules", d:"react to AWS events automatically"},
+      {s:"AWS X-Ray (tracing)", d:"trace requests across services"},
+      {s:"CloudTrail (audit)", d:"who did what in your account"}
+     ]},
+    {m:"Capstone — deploy your whole system to AWS", goal:"the real thing: your full microservices system, live, secure, and monitored on the cloud.",
+     build:"Provision a VPC + EKS + RDS + ElastiCache with Terraform, deploy your services with Helm, expose via ALB Ingress with HTTPS, watch it in CloudWatch — then tear it ALL down.",
+     tip:"Finishing this proves you can take an app from an empty folder to a live, production-grade cloud system — exactly what the job is.",
+     watch:"Before you walk away, run <code>terraform destroy</code> and confirm in the console that EKS, NAT gateways, load balancers and RDS are gone. This is the step that saves you money.",
+     sub:[
+      {s:"Plan the target architecture", d:"draw every AWS piece &amp; how they connect"},
+      {s:"Provision the network (VPC)", d:"subnets, gateways, security groups via Terraform"},
+      {s:"Provision an EKS cluster", d:"managed Kubernetes on AWS"},
+      {s:"Provision RDS &amp; ElastiCache", d:"managed data + cache in private subnets"},
+      {s:"Store secrets in SSM/Secrets Manager", d:"no credentials in code or images"},
+      {s:"Push images to ECR", d:"your registry for the deployment"},
+      {s:"Deploy services with Helm", d:"reuse your Phase 11 charts"},
+      {s:"Expose via ALB Ingress + HTTPS", d:"public entry with a real domain &amp; TLS"},
+      {s:"Wire monitoring &amp; alarms", d:"CloudWatch dashboards + SNS alerts"},
+      {s:"Load-test &amp; verify", d:"prove it scales and stays healthy"},
+      {s:"Estimate &amp; check cost", d:"know what this would cost per month"},
+      {s:"Tear everything down", d:"destroy all resources to stop charges"}
+     ]}
+);
+
+PHASES.push({
+  n:"14", emoji:"✨", id:"polish", chip:"Polish & Pro", weeks:"~1 week + ongoing",
+  title:"Polish &amp; pro habits — the finishing touches",
+  tag:"keep a big multi-service codebase clean, share common code the right way, and know how to keep growing.",
+  prereq:"You've built the full system across earlier phases. This makes it maintainable and interview-ready.",
+  modules:[
+    {m:"Consistent versions — Spring Boot BOM", goal:"stop version-mismatch bugs across many services.",
+     build:"Ensure services inherit the Spring Boot BOM, then create a small shared BOM to standardize versions.",
+     sub:[
+      {s:"What a BOM is", d:"pins compatible library versions together"},
+      {s:"Spring Boot's BOM", d:"a tested set of versions"},
+      {s:"Your own shared BOM", d:"one version source for all services"}
+     ]},
+    {m:"Don't copy-paste — shared libraries", goal:"reuse common code without re-coupling services.",
+     build:"Move duplicated code (error responses, correlation-ID logic) into a shared library used by two services.",
+     watch:"Don't over-share. If a 'shared' lib changes constantly and forces every service to redeploy, you've re-coupled them.",
+     sub:[
+      {s:"When to share code", d:"truly stable, common things only"},
+      {s:"Building a shared library", d:"a module packaged as a jar"},
+      {s:"The over-sharing trap", d:"how sharing re-couples services"}
+     ]},
+    {m:"Faster startups — GraalVM native images", goal:"know the option exists and its trade-offs (awareness).",
+     build:"Just understand the trade-off now; try a native build later once everything else is solid.",
+     sub:[
+      {s:"Native images", d:"compile to a fast, small executable"},
+      {s:"Startup &amp; memory wins", d:"great for serverless/dense deploys"},
+      {s:"Build complexity &amp; limits", d:"the cost of going native"}
+     ]},
+    {m:"Think like a senior — system design &amp; interviews", goal:"explain your choices; that's what gets hired.",
+     build:"For each major phase, write 2–3 sentences: 'what problem did this solve, and what did it cost me?' Practice saying them aloud.",
+     tip:"Anyone can follow a tutorial. Engineers who get hired can explain their choices and adapt when reality differs. That's the real skill.",
+     sub:[
+      {s:"Explaining trade-offs", d:"why this, not that"},
+      {s:"Recap the patterns", d:"gateway, breaker, saga, sidecar…"},
+      {s:"Whiteboard the architecture", d:"draw your system from memory"},
+      {s:"Back-of-envelope scaling", d:"reason about load &amp; limits"},
+      {s:"Reading docs over blogs", d:"go to the source of truth"}
+     ]},
+    {m:"Keep leveling up", goal:"turn this map into a lifelong practice.",
+     build:"Rebuild the whole system from an empty folder with this guide closed. That repo is your portfolio.",
+     sub:[
+      {s:"Rebuild from scratch", d:"the ultimate proof you learned it"},
+      {s:"Polish your GitHub repo", d:"README + architecture diagram"},
+      {s:"Pick your next depth", d:"Kafka, Istio, or AWS certs"},
+      {s:"Never stop shipping", d:"small projects keep skills sharp"}
+     ]}
+  ]
+});
+
+/* ============ boot ============ */
+if (document.readyState !== "loading") { render(); }
+else { document.addEventListener("DOMContentLoaded", render); }
+</script>
+</body>
 </html>
